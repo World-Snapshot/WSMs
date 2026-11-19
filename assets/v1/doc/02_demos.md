@@ -782,7 +782,7 @@
 </div>
 </div>
 
-<center>Due to space limitations, we are only demonstrating <a href="https://github.com/World-Snapshot/The-results-of-Augustus">part Generation and Estimation tasks</a>, for condition control and for more task types, please refer to the <a href="https://github.com/World-Snapshot/ControlWave/tree/main/plugins">plugins</a>: 1. Some mechanisms/functions are not easy to be displayed in short videos. 2. We can achieve too many tasks<sup class="footnote" data-note="One-to-many, many-to-one, any quantity to any quantity, any channel to any channel.">o</sup> (theoretically, is the limit of the world), and instead of creating a DEMO, it would be better to create plugins so that more people can use them immediately. 3. Some tasks are too abstract, for example, we can even simulate a blind person who cannot see RGB but can infer the material based on friction/ sound, and then guess the softness/hardness/category/color, this is the thinking chain in the World Snapshot Model (WSM). All the DEMOs can be accessed for viewing <a href="https://github.com/World-Snapshot/The-results-of-Augustus">results</a>, <a href="https://world-snapshot.github.io/doc/index.html?page=S3_get_start/04_best_practices.md">documentation</a> or <a href="https://github.com/World-Snapshot/ControlWave/tree/main/plugins">plugins</a>.</center>
+<center>Due to space limitations, we are only demonstrating <a href="https://github.com/World-Snapshot/The-results-of-Augustus">part Generation and Estimation tasks</a>, for condition control and for more task types, please refer to the <a href="https://github.com/World-Snapshot/ControlWave/tree/main/plugins">plugins</a>: 1. Some mechanisms/functions are not easy to be displayed in short videos. 2. We can achieve too many tasks<fn>One-to-many, many-to-one, any quantity to any quantity, any channel to any channel.</fn> (theoretically, is the limit of the world), and instead of creating a DEMO, it would be better to create plugins so that more people can use them immediately. 3. Some tasks are too abstract, for example, we can even simulate a blind person who cannot see RGB but can infer the material based on friction/ sound, and then guess the softness/hardness/category/color, this is the thinking chain in the World Snapshot Model (WSM). All the DEMOs can be accessed for viewing <a href="https://github.com/World-Snapshot/The-results-of-Augustus">results</a>, <a href="https://world-snapshot.github.io/doc/index.html?page=S3_get_start/04_best_practices.md">documentation</a> or <a href="https://github.com/World-Snapshot/ControlWave/tree/main/plugins">plugins</a>.</center>
 
 ### Advanced Features
 
@@ -1013,30 +1013,30 @@
     this.galleryId = container.getAttribute('data-gallery-id');
     this.currentStart = 0;
     this.videosPerPage = 3;
-    
+
     // Get gallery elements
     this.videos = container.querySelectorAll('.video-item');
     this.tabs = container.querySelectorAll('.gallery-tab');
     this.prevBtn = container.querySelector('.gallery-prev');
     this.nextBtn = container.querySelector('.gallery-next');
-    
+
     this.totalVideos = this.videos.length;
-    
+
     // Bind event handlers
     this.init();
   }
-  
+
   VideoGallery.prototype.showVideos = function(startIndex) {
     // Hide all videos and remove active class
     for (var i = 0; i < this.videos.length; i++) {
       this.videos[i].classList.remove('active');
     }
-    
+
     // Reset all tabs
     for (var i = 0; i < this.tabs.length; i++) {
       this.tabs[i].classList.remove('active');
     }
-    
+
     // Show current page videos and highlight tabs
     for (var i = 0; i < this.videosPerPage; i++) {
       var index = startIndex + i;
@@ -1047,15 +1047,15 @@
         }
       }
     }
-    
+
     this.currentStart = startIndex;
   };
-  
+
   VideoGallery.prototype.showFromTab = function(videoIndex) {
     var newStart = Math.max(0, Math.min(videoIndex - 1, this.totalVideos - this.videosPerPage));
     this.showVideos(newStart);
   };
-  
+
   VideoGallery.prototype.prev = function() {
     var newStart = this.currentStart - this.videosPerPage;
     if (newStart < 0) {
@@ -1063,7 +1063,7 @@
     }
     this.showVideos(newStart);
   };
-  
+
   VideoGallery.prototype.next = function() {
     var newStart = this.currentStart + this.videosPerPage;
     if (newStart >= this.totalVideos) {
@@ -1071,10 +1071,10 @@
     }
     this.showVideos(newStart);
   };
-  
+
   VideoGallery.prototype.init = function() {
     var self = this;
-    
+
     // Tab click handlers
     for (var i = 0; i < this.tabs.length; i++) {
       (function(index) {
@@ -1084,24 +1084,24 @@
         });
       })(i);
     }
-    
+
     // Arrow button handlers
     if (this.prevBtn) {
       this.prevBtn.addEventListener('click', function() {
         self.prev();
       });
     }
-    
+
     if (this.nextBtn) {
       this.nextBtn.addEventListener('click', function() {
         self.next();
       });
     }
-    
+
     // Initialize first page
     this.showVideos(0);
   };
-  
+
   // Initialize all galleries on the page
   function initializeAllGalleries() {
     var galleries = document.querySelectorAll('.video-gallery');
@@ -1121,7 +1121,7 @@
     // Store instances globally if needed for debugging
     window.videoGalleries = galleryInstances;
   }
-  
+
   // Wait for DOM to be ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeAllGalleries);

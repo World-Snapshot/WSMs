@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23eef0f2%27/%3E%3Ctext x=%2716%27 y=%2726%27 font-family=%27-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif%27 font-size=%2726%27 font-weight=%27500%27 text-anchor=%27middle%27 fill=%27%23202122%27%3EW%3C/text%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23eef0f2%27/%3E%3Ctext x=%2716%27 y=%2726%27 font-family=%27-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif%27 font-size=%2726%27 font-weight=%27500%27 text-anchor=%27middle%27 fill=%27%23202122%27%3EW%3C/text%3E%3C/svg%3E">
-    <link rel="stylesheet" href="./assets/v1/static/styles.css?v=20261118-md-router2">
+    <link rel="stylesheet" href="./assets/v1/static/styles.css?v=20261119-footnotes1">
     <link rel="stylesheet" href="./assets/v1/static/cite-button.css">
     <link rel="stylesheet" href="./assets/version-selector.css?v=20260825-v4">
 </head>
@@ -147,7 +147,7 @@
                 <i class="fas fa-database"></i> Datasets
             </a>
             <a href="#demos" class="button">
-                <i class="fas fa-play"></i> Demos
+                <i class="fas fa-play"></i> Results
             </a>
         </div>
 
@@ -779,6 +779,18 @@
                     });
                     script.parentNode.replaceChild(newScript, script);
                 });
+            });
+            initFootnotes(root);
+        }
+
+        function initFootnotes(root = document) {
+            root.querySelectorAll('fn:not([data-init])').forEach(element => {
+                const text = element.textContent.trim();
+                element.setAttribute('data-init', '');
+                element.replaceChildren(Object.assign(document.createElement('span'), {
+                    className: 'fn-text',
+                    textContent: text
+                }));
             });
         }
 
