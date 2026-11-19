@@ -1,9 +1,13 @@
 # WSMs: World Snapshot Models
 
-[[Paper]](https://github.com/FangSen9000/CVPR2027_WSM) |
-[[Project Page]](https://world-snapshot.github.io/) |
-[[Huggingface]](https://huggingface.co/World-Snapshot) |
+[[Paper]](https://arxiv.org/abs/2611.24917) |
+[[Project Page]](https://world-snapshot.github.io/WSMs/) |
+[[Model]](https://huggingface.co/World-Snapshot/WSM_v1) |
+[[Datasets]](https://huggingface.co/World-Snapshot/datasets) |
 [[Documentation]](https://world-snapshot.github.io/doc/index.html) |
+[[pip Install]](#installation) |
+[[Python Pipeline]](#inference) |
+[[Quickstart Notebook]](src/examples/WSM_Quickstart.ipynb) |
 [[WebUI]](https://github.com/World-Snapshot/ControlWorld) |
 [[World Snapshot Graphics]](https://github.com/World-Snapshot/wsg) |
 [[Organization]](https://github.com/World-Snapshot)
@@ -77,7 +81,7 @@ Each major WSM version has an independent environment. `WSM_v1/env` is fixed for
 Use the Python training and inference pipeline:
 
 ```bash
-pip install wsm
+pip install wsms
 ```
 
 or
@@ -227,11 +231,11 @@ For a recurring official or custom sparse-pose target, add its target identifier
 
 ## Inference
 
-After installing `wsm`, a released task tunnel can be loaded directly by its
+After installing `wsms`, a released task tunnel can be loaded directly by its
 ordered input and output modalities:
 
 ```python
-from wsm import WSMPipeline
+from wsms import WSMPipeline
 
 pipe = WSMPipeline.from_pretrained(
     "World-Snapshot/WSM_v1",

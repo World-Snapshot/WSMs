@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from wsm.catalog import TaskCatalog
+from wsms.catalog import TaskCatalog
 
 
 ROOT = Path(__file__).resolve().parents[2] / "WSM_v1"

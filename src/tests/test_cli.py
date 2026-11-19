@@ -1,4 +1,4 @@
-from wsm.cli import main
+from wsms.cli import main
 
 
 def test_top_level_list(capsys):

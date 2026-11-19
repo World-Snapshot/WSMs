@@ -42,6 +42,7 @@ jobs:
         run: |
           python -m venv wheel-smoke
           wheel-smoke/bin/python -m pip install --no-deps dist/*.whl
-          wheel-smoke/bin/wsm --version
-          wheel-smoke/bin/wsm tunnel list --input 0-2 --output 36-38
-          wheel-smoke/bin/wsm head list --source sparse --limit 3
+          wheel-smoke/bin/python -c "import importlib.util, wsms; assert importlib.util.find_spec('wsm') is None"
+          wheel-smoke/bin/wsms --version
+          wheel-smoke/bin/wsms tunnel list --input 0-2 --output 36-38
+          wheel-smoke/bin/wsms head list --source sparse --limit 3

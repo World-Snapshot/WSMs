@@ -1,4 +1,4 @@
-"""The ``wsm`` command-line interface."""
+"""The ``wsms`` command-line interface."""
 
 from __future__ import annotations
 
@@ -29,8 +29,8 @@ def _add_catalog_filters(parser: argparse.ArgumentParser) -> None:
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="wsm", description="World Snapshot Models")
-    parser.add_argument("--version", action="version", version=f"wsm {__version__}")
+    parser = argparse.ArgumentParser(prog="wsms", description="World Snapshot Models")
+    parser.add_argument("--version", action="version", version=f"wsms {__version__}")
     subcommands = parser.add_subparsers(dest="command")
     subcommands.add_parser("list", help="List all top-level WSM capabilities")
 
@@ -97,7 +97,7 @@ def _top_level() -> None:
     for command, description in rows:
         print(f"{command:<8} {description}")
     print()
-    print("Use 'wsm tunnel list' for task mappings or 'wsm head list' for implementations.")
+    print("Use 'wsms tunnel list' for task mappings or 'wsms head list' for implementations.")
 
 
 def _rows(tasks: Iterable[WSMTask], *, heads: bool) -> None:
@@ -145,7 +145,7 @@ def _package_info() -> dict[str, object]:
     except Exception as exc:  # pragma: no cover - diagnostic path
         cuda = {"available": False, "error": str(exc)}
     return {
-        "wsm_version": __version__,
+        "wsms_version": __version__,
         "runtime_root": str(runtime_root()),
         "released_tunnels": len(catalog),
         "families": by_source,
@@ -160,7 +160,7 @@ def _show_info(as_json: bool) -> None:
     if as_json:
         print(json.dumps(values, indent=2, ensure_ascii=False))
         return
-    print(f"wsm {values['wsm_version']}")
+    print(f"wsms {values['wsms_version']}")
     print(f"Runtime: {values['runtime_root']}")
     print(f"Released tunnels: {values['released_tunnels']:,}")
     families = values["families"]

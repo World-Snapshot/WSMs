@@ -677,6 +677,8 @@ def model_card(manifest: Mapping[str, Any]) -> bytes:
     return f"""---
 library_name: diffusers
 license: other
+license_name: wsm-non-commercial-research-license
+license_link: https://huggingface.co/World-Snapshot/WSM_v1/blob/main/LICENSE
 tags:
 - world-snapshot
 - tunnelingnet
@@ -685,10 +687,10 @@ tags:
 - wsg-generation
 ---
 
-# WSM v1 Channel Heads
+# WSM v1 TunnelingNets
 
-This private pre-release repository stores the official WSM v1 Channel Head
-training runs in three release tiers.
+This repository stores the official WSM v1 TunnelingNet training runs in three
+release tiers.
 
 1. **Direct inference files.** Recommended checkpoints, resolved run contracts,
    and active inference sidecars retain their original paths. These files can be
@@ -749,6 +751,21 @@ Source directories are never modified. Local paths, user/host identifiers,
 emails, and credential-shaped strings are removed from uploaded text and
 supported PyTorch states. See RELEASE_MANIFEST.json for the exact selection,
 packaging, and privacy policy.
+
+## License
+
+**In short:** You are welcome to use, study, modify, and extend this project
+for noncommercial purposes, including research, experimentation, development,
+training, evaluation, education, and personal projects. Commercial use
+requires separate permission from Rutgers; contact
+`compliance@research.rutgers.edu` and reference Rutgers Docket #2027-020. The
+[LICENSE](./LICENSE) file contains the governing terms.
+
+The source code, documentation, and Rutgers-owned model artifacts in this
+repository, including trained or fine-tuned weights, checkpoints, adapters,
+and other model-weight files, are provided under the
+[WSM Non-commercial Research License](./LICENSE). Third-party components remain
+subject to their respective licenses.
 """.encode()
 
 
@@ -911,14 +928,24 @@ def load_state(path: Path, repo_id: str) -> dict[str, Any]:
     return state
 
 
-def ensure_private_repo(api: Any, repo_id: str) -> None:
+def ensure_upload_repo(api: Any, repo_id: str, allow_public_repo: bool) -> None:
     api.create_repo(repo_id=repo_id, repo_type="model", private=True, exist_ok=True)
     info = api.repo_info(repo_id=repo_id, repo_type="model")
-    if not bool(getattr(info, "private", False)):
-        api.update_repo_settings(repo_id=repo_id, repo_type="model", private=True)
-        info = api.repo_info(repo_id=repo_id, repo_type="model")
-    if not bool(getattr(info, "private", False)):
-        raise RuntimeError(f"Refusing upload because {repo_id} is not private")
+    is_private = bool(getattr(info, "private", False))
+    if is_private:
+        print(f"Verified private repository: https://huggingface.co/{repo_id}")
+        return
+    if not allow_public_repo:
+        raise RuntimeError(
+            f"Refusing upload because {repo_id} is public; pass "
+            "--allow-public-repo only for a licensed public release"
+        )
+    files = {item.rfilename for item in getattr(info, "siblings", ())}
+    if "LICENSE" not in files:
+        raise RuntimeError(
+            f"Refusing public upload because {repo_id} has no LICENSE file"
+        )
+    print(f"Verified licensed public repository: https://huggingface.co/{repo_id}")
 
 
 def upload_release(
@@ -933,6 +960,7 @@ def upload_release(
     token: str | None,
     retries: int,
     recreate_repo: bool,
+    allow_public_repo: bool,
 ) -> None:
     try:
         from huggingface_hub import CommitOperationAdd, HfApi
@@ -947,8 +975,7 @@ def upload_release(
             state_path,
             {"format": RELEASE_FORMAT, "repo_id": repo_id, "uploaded": {}},
         )
-    ensure_private_repo(api, repo_id)
-    print(f"Verified private repository: https://huggingface.co/{repo_id}")
+    ensure_upload_repo(api, repo_id, allow_public_repo)
     state = load_state(state_path, repo_id)
     uploaded = state.setdefault("uploaded", {})
 
@@ -1147,6 +1174,11 @@ def make_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="replace an incomplete legacy release with the three-tier layout",
     )
+    result.add_argument(
+        "--allow-public-repo",
+        action="store_true",
+        help="resume a release to a public repository only when LICENSE exists",
+    )
     result.add_argument("--verbose", action="store_true")
     return result
 
@@ -1231,7 +1263,9 @@ def main() -> None:
         {
             "generated_at": utc_now(),
             "repo_id": args.repo_id,
-            "repository_visibility": "private",
+            "repository_visibility": (
+                "public" if args.allow_public_repo else "private"
+            ),
             "manifest": manifest,
             "unsafe_binary": unsafe_binary,
             "sanitized_torch_checkpoints": sorted(torch_transform),
@@ -1268,6 +1302,7 @@ def main() -> None:
         args.token,
         args.retries,
         args.recreate_repo,
+        args.allow_public_repo,
     )
 
 

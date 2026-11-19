@@ -3,7 +3,7 @@ requires = ["hatchling>=1.26"]
 build-backend = "hatchling.build"
 
 [project]
-name = "wsm"
+name = "wsms"
 version = "0.1.0"
 description = "World Snapshot Models pipelines for unified visual generation, estimation, control, and reconstruction"
 readme = "PYPI_README.md"
@@ -84,14 +84,15 @@ full = [
 dev = ["build>=1.2", "pytest>=8", "twine>=6"]
 
 [project.scripts]
-wsm = "wsm.cli:main"
+wsms = "wsms.cli:main"
 
 [project.urls]
-Homepage = "https://world-snapshot.github.io/"
+Homepage = "https://world-snapshot.github.io/WSMs/"
 Documentation = "https://world-snapshot.github.io/doc/index.html"
 Repository = "https://github.com/World-Snapshot/WSMs"
-Paper = "https://github.com/FangSen9000/CVPR2027_WSM"
+Paper = "https://arxiv.org/abs/2611.24917"
 Models = "https://huggingface.co/World-Snapshot/WSM_v1"
+Datasets = "https://huggingface.co/World-Snapshot/datasets"
 Issues = "https://github.com/World-Snapshot/WSMs/issues"
 
 [tool.hatch.build]
@@ -105,56 +106,56 @@ exclude = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/wsm"]
+packages = ["src/wsms"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py" = "wsm/_bundled/WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py"
-"WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py" = "wsm/_bundled/WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py"
-"WSM_v1/configs/wsg_v1_modalities_custom.json" = "wsm/_bundled/WSM_v1/configs/wsg_v1_modalities_custom.json"
-"WSM_v1/configs/wsg_v1_modalities_dense.json" = "wsm/_bundled/WSM_v1/configs/wsg_v1_modalities_dense.json"
-"WSM_v1/configs/wsg_v1_modalities_sparse.json" = "wsm/_bundled/WSM_v1/configs/wsg_v1_modalities_sparse.json"
-"WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json" = "wsm/_bundled/WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json"
-"WSM_v1/src/dataset" = "wsm/_bundled/WSM_v1/src/dataset"
-"WSM_v1/src/pipelines/categorical_refiner.py" = "wsm/_bundled/WSM_v1/src/pipelines/categorical_refiner.py"
-"WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py" = "wsm/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py"
-"WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py" = "wsm/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py"
-"WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py" = "wsm/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py"
-"WSM_v1/src/visualization" = "wsm/_bundled/WSM_v1/src/visualization"
-"WSM_v1/webui/__init__.py" = "wsm/_bundled/WSM_v1/webui/__init__.py"
-"WSM_v1/webui/input_validation.py" = "wsm/_bundled/WSM_v1/webui/input_validation.py"
-"WSM_v1/wsg_reader/categorical_visualization.py" = "wsm/_bundled/WSM_v1/wsg_reader/categorical_visualization.py"
-"WSM_v1/wsg_reader/normalized_wsg_loader.py" = "wsm/_bundled/WSM_v1/wsg_reader/normalized_wsg_loader.py"
-"WSM_v1/wsg_reader/configs/channel_visualization_palettes.json" = "wsm/_bundled/WSM_v1/wsg_reader/configs/channel_visualization_palettes.json"
-"WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json" = "wsm/_bundled/WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json"
-"WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json" = "wsm/_bundled/WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json"
-"WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json" = "wsm/_bundled/WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json"
-"WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py"
-"WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py"
-"WSM_v1/wsg_reader/utils/binvox_relative.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/binvox_relative.py"
-"WSM_v1/wsg_reader/utils/binvox_utils.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/binvox_utils.py"
-"WSM_v1/wsg_reader/utils/blender_script.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/blender_script.py"
-"WSM_v1/wsg_reader/utils/blender_script_shapenet.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/blender_script_shapenet.py"
-"WSM_v1/wsg_reader/utils/draw_dw_lib.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/draw_dw_lib.py"
-"WSM_v1/wsg_reader/utils/optimized_processing.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/optimized_processing.py"
-"WSM_v1/wsg_reader/utils/preprocess_video.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/preprocess_video.py"
-"WSM_v1/wsg_reader/utils/util.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/util.py"
-"WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py" = "wsm/_bundled/WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py"
-"WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py" = "wsm/_bundled/WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py"
+"WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py" = "wsms/_bundled/WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py"
+"WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py" = "wsms/_bundled/WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py"
+"WSM_v1/configs/wsg_v1_modalities_custom.json" = "wsms/_bundled/WSM_v1/configs/wsg_v1_modalities_custom.json"
+"WSM_v1/configs/wsg_v1_modalities_dense.json" = "wsms/_bundled/WSM_v1/configs/wsg_v1_modalities_dense.json"
+"WSM_v1/configs/wsg_v1_modalities_sparse.json" = "wsms/_bundled/WSM_v1/configs/wsg_v1_modalities_sparse.json"
+"WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json" = "wsms/_bundled/WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json"
+"WSM_v1/src/dataset" = "wsms/_bundled/WSM_v1/src/dataset"
+"WSM_v1/src/pipelines/categorical_refiner.py" = "wsms/_bundled/WSM_v1/src/pipelines/categorical_refiner.py"
+"WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py" = "wsms/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py"
+"WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py" = "wsms/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py"
+"WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py" = "wsms/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py"
+"WSM_v1/src/visualization" = "wsms/_bundled/WSM_v1/src/visualization"
+"WSM_v1/webui/__init__.py" = "wsms/_bundled/WSM_v1/webui/__init__.py"
+"WSM_v1/webui/input_validation.py" = "wsms/_bundled/WSM_v1/webui/input_validation.py"
+"WSM_v1/wsg_reader/categorical_visualization.py" = "wsms/_bundled/WSM_v1/wsg_reader/categorical_visualization.py"
+"WSM_v1/wsg_reader/normalized_wsg_loader.py" = "wsms/_bundled/WSM_v1/wsg_reader/normalized_wsg_loader.py"
+"WSM_v1/wsg_reader/configs/channel_visualization_palettes.json" = "wsms/_bundled/WSM_v1/wsg_reader/configs/channel_visualization_palettes.json"
+"WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json" = "wsms/_bundled/WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json"
+"WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json" = "wsms/_bundled/WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json"
+"WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json" = "wsms/_bundled/WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json"
+"WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py" = "wsms/_bundled/WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py"
+"WSM_v1/wsg_reader/utils/binvox_relative.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/binvox_relative.py"
+"WSM_v1/wsg_reader/utils/binvox_utils.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/binvox_utils.py"
+"WSM_v1/wsg_reader/utils/blender_script.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/blender_script.py"
+"WSM_v1/wsg_reader/utils/blender_script_shapenet.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/blender_script_shapenet.py"
+"WSM_v1/wsg_reader/utils/draw_dw_lib.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/draw_dw_lib.py"
+"WSM_v1/wsg_reader/utils/optimized_processing.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/optimized_processing.py"
+"WSM_v1/wsg_reader/utils/preprocess_video.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/preprocess_video.py"
+"WSM_v1/wsg_reader/utils/util.py" = "wsms/_bundled/WSM_v1/wsg_reader/utils/util.py"
+"WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py" = "wsms/_bundled/WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py"
+"WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py" = "wsms/_bundled/WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -162,7 +163,7 @@ only-include = [
   "/PYPI_README.md",
   "/pyproject.toml",
   "/src/examples/WSM_Quickstart.ipynb",
-  "/src/wsm",
+  "/src/wsms",
   "/WSM_v1/configs/wsg_v1_modalities_custom.json",
   "/WSM_v1/configs/wsg_v1_modalities_dense.json",
   "/WSM_v1/configs/wsg_v1_modalities_sparse.json",

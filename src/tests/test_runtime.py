@@ -1,7 +1,7 @@
 from pathlib import Path
 from types import SimpleNamespace
 
-import wsm.runtime as runtime
+import wsms.runtime as runtime
 
 
 def test_runtime_preserves_huggingface_snapshot_path(tmp_path, monkeypatch):

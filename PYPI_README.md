@@ -40,14 +40,14 @@ TunnelingNet reveals recognizable structure 77–100 times earlier and requires
 12.51M-parameter tunnel; with the complete task bank loaded, WSM v1 forms an
 18B-class model rather than multiplying the backbone thousands of times.
 
-The `wsm` package makes this complete task space directly callable through
+The `wsms` package makes this complete task space directly callable through
 `WSMPipeline`, command-line discovery, and qualified Dense, Sparse, and
 Custom Channel Heads.
 
 ## Installation
 
 ```bash
-pip install wsm
+pip install wsms
 ```
 
 The [one-click WSM notebook](https://github.com/World-Snapshot/WSMs/blob/main/src/examples/WSM_Quickstart.ipynb)
@@ -57,15 +57,15 @@ workflow.
 WSM v1 inference requires a CUDA-capable GPU and currently runs in
 `torch.bfloat16`. If pip selects a PyTorch build that does not match the local
 CUDA driver, install the appropriate PyTorch wheel first and then install
-`wsm`.
+`wsms`.
 
 Optional interfaces can be installed without changing the API:
 
 ```bash
-pip install "wsm[audio]"     # audio-specific decoding support
-pip install "wsm[webui]"     # ControlWorld/WebUI dependencies
-pip install "wsm[training]"  # training and continuation utilities
-pip install "wsm[full]"      # all optional components
+pip install "wsms[audio]"     # audio-specific decoding support
+pip install "wsms[webui]"     # ControlWorld/WebUI dependencies
+pip install "wsms[training]"  # training and continuation utilities
+pip install "wsms[full]"      # all optional components
 ```
 
 The pip distribution contains the WSM pipeline, task catalog, modality
@@ -75,16 +75,15 @@ Python package.
 
 ### Install directly from GitHub
 
-Before a PyPI release, an authorized user can install from the Git repository.
-Dependencies declared in `pyproject.toml` are installed automatically:
+The public Git repository can also be installed directly. Dependencies declared
+in `pyproject.toml` are installed automatically:
 
 ```bash
-pip install "wsm @ git+https://github.com/World-Snapshot/WSMs.git@v0.1.0"
+pip install "wsms @ git+https://github.com/World-Snapshot/WSMs.git@v0.1.0"
 ```
 
 Replace the release tag with a specific commit when exact reproducibility is
-required. For the private repository, GitHub authentication is required. Model
-access remains independently controlled by Hugging Face.
+required.
 
 ## Model access
 
@@ -94,20 +93,17 @@ The default model repository is:
 World-Snapshot/WSM_v1
 ```
 
-While this repository is private, the Hugging Face account running WSM must
-have access. Authenticate once on the machine:
+The model repository is public, so downloading released checkpoints does not
+require authentication. A Hugging Face login remains optional for users who
+want authenticated Hub access:
 
 ```bash
 hf auth login
 ```
 
-The pipeline then uses the cached Hugging Face identity automatically. It also
-supports the standard `HF_TOKEN` environment variable and an explicit
+When present, the pipeline uses the cached Hugging Face identity automatically.
+It also supports the standard `HF_TOKEN` environment variable and an explicit
 `token=...` argument. Avoid storing tokens in source files or shell history.
-
-An unauthorized account can install `wsm` and inspect the task catalog, but it
-cannot download the private checkpoints. When the model repository becomes
-public, authentication will no longer be required.
 
 ## Three levels of discovery
 
@@ -126,30 +122,30 @@ Head indices repeat across families. Consequently, a bare value such as
 ### Command-line discovery
 
 ```bash
-wsm list
-wsm tunnel list
-wsm head list
-wsm info
+wsms list
+wsms tunnel list
+wsms head list
+wsms info
 ```
 
-`wsm list` shows the package's top-level capabilities. `wsm tunnel list`
-shows all user-facing mappings, while `wsm head list` shows the qualified
+`wsms list` shows the package's top-level capabilities. `wsms tunnel list`
+shows all user-facing mappings, while `wsms head list` shows the qualified
 implementation behind each mapping.
 
 Examples:
 
 ```bash
 # RGB -> surface normals
-wsm tunnel list --input 0-2 --output 36-38
+wsms tunnel list --input 0-2 --output 36-38
 
 # Ordered multi-input route
-wsm tunnel list --input 39 --input 0-2 --output 90-92
+wsms tunnel list --input 39 --input 0-2 --output 90-92
 
 # Only Sparse implementations
-wsm head list --source sparse
+wsms head list --source sparse
 
 # Machine-readable discovery
-wsm tunnel list --output Universal_Pose --json
+wsms tunnel list --output Universal_Pose --json
 ```
 
 Filters preserve input order because `A + B -> C` and `B + A -> C` can
@@ -158,7 +154,7 @@ represent different routing contracts.
 ### Python discovery
 
 ```python
-from wsm import WSMPipeline
+from wsms import WSMPipeline
 
 tasks = WSMPipeline.list_tasks(
     inputs=["0-2"],
@@ -179,7 +175,7 @@ Input-output selection is the recommended public API:
 
 ```python
 import torch
-from wsm import WSMPipeline
+from wsms import WSMPipeline
 
 pipe = WSMPipeline.from_pretrained(
     "World-Snapshot/WSM_v1",
@@ -261,7 +257,7 @@ where downloaded artifacts are stored.
 The command-line interface uses the same catalog and `WSMPipeline` runtime:
 
 ```bash
-wsm infer \
+wsms infer \
   --input 0-2=input.png \
   --target 36-38 \
   --device cuda:0 \
@@ -273,7 +269,7 @@ wsm infer \
 Multi-input example:
 
 ```bash
-wsm infer \
+wsms infer \
   --input 39=curvature.npz \
   --input 0-2=reference.png \
   --target 90-92 \
@@ -282,7 +278,7 @@ wsm infer \
 ```
 
 To pin an implementation, replace `--target` with a qualified selector such
-as `--head dense:000424`. Run `wsm infer --help` for all runtime options.
+as `--head dense:000424`. Run `wsms infer --help` for all runtime options.
 
 ## Accepted inputs
 
@@ -322,7 +318,7 @@ Set these only when the selected tunnel needs them:
 - `WSM_HUMAN_MODELS_PYTHONPATH`: optional Python helper root for SMPL-X;
 - `WSM_SHAPENET_TEXTURE_ROOT`: ShapeNet texture directory.
 
-These third-party assets are not distributed by `wsm`.
+These third-party assets are not distributed by `wsms`.
 
 ## Naming compatibility
 
@@ -330,15 +326,16 @@ These third-party assets are not distributed by `wsm`.
 `WSM_Pipeline` remains available as a compatibility alias:
 
 ```python
-from wsm import WSMPipeline, WSM_Pipeline
+from wsms import WSMPipeline, WSM_Pipeline
 
 assert WSMPipeline is WSM_Pipeline
 ```
 
 ## Links
 
-- [Project](https://world-snapshot.github.io/)
+- [Project](https://world-snapshot.github.io/WSMs/)
 - [Source](https://github.com/World-Snapshot/WSMs)
 - [Model repository](https://huggingface.co/World-Snapshot/WSM_v1)
+- [Datasets](https://huggingface.co/World-Snapshot/datasets)
 - [Documentation](https://world-snapshot.github.io/doc/index.html)
-- [Paper repository](https://github.com/FangSen9000/CVPR2027_WSM)
+- [Paper](https://arxiv.org/abs/2611.24917)

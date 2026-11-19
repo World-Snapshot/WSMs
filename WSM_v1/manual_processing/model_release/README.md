@@ -1,7 +1,7 @@
-# WSM v1 private model release
+# WSM v1 model release
 
 `publish_wsm_v1_models.py` selects, audits, sanitizes, and uploads the official
-WSM v1 Channel Head runs to the private Hugging Face model repository
+WSM v1 TunnelingNet runs to the Hugging Face model repository
 `World-Snapshot/WSM_v1`.
 
 Selection comes from the dense recommendation registry and the sparse/custom
@@ -46,6 +46,10 @@ python manual_processing/model_release/publish_wsm_v1_models.py plan
 python manual_processing/model_release/publish_wsm_v1_models.py audit --verbose
 python manual_processing/model_release/publish_wsm_v1_models.py upload --verbose
 ```
+
+The uploader defaults to private repositories. For the licensed public release,
+resume with `--allow-public-repo`; the script verifies that the repository
+already contains `LICENSE` before uploading any artifact.
 
 The upload is resumable through Git-ignored state in `train_log/`. Migrating
 from the incomplete legacy layout requires one upload with `--recreate-repo`;

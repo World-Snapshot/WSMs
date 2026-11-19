@@ -35,7 +35,7 @@ def runtime_root(explicit: str | Path | None = None) -> Path:
     if (bundled / "configs").is_dir():
         return bundled
     raise FileNotFoundError(
-        "The WSM v1 runtime is missing. Reinstall the official 'wsm' wheel."
+        "The WSM v1 runtime is missing. Reinstall the official 'wsms' wheel."
     )
 
 
