@@ -4,7 +4,7 @@
 
 <div class="authors">
   <a class="author-link" href="https://fangsen9000.github.io/" target="_blank" rel="noopener noreferrer">Sen Fang</a><sup>1</sup>,
-  <a class="author-link" href="https://yalin-feng.github.io/" target="_blank" rel="noopener noreferrer">Yalin Feng</a><sup>2</sup>,
+  <a class="author-link" href="https://github.com/YalinFeng01" target="_blank" rel="noopener noreferrer">Yalin Feng</a><sup>2</sup>,
   <a class="author-link" href="https://yanchengzhang.com/" target="_blank" rel="noopener noreferrer">Yancheng Zhang</a><sup>3</sup>,
   <a class="author-link" href="https://github.com/yanxinzhangcs" target="_blank" rel="noopener noreferrer">Yanxin Zhang</a><sup>4</sup>,
   <a class="author-link" href="https://zonglinl.github.io/" target="_blank" rel="noopener noreferrer">Zonglin Lyu</a><sup>3</sup>,
