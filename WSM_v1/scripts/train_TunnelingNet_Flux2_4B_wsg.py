@@ -1853,6 +1853,25 @@ def apply_audio_modulation_state(state: torch.Tensor, audio_modulation):
     return state * (1 + gate * scale) + gate * shift
 
 
+def split_flux2_modulation(modulation, parameter_sets: int):
+    """Normalize both released FLUX.2 modulation APIs to tuple form.
+
+    Earlier Diffusers revisions returned tuples of ``(shift, scale, gate)``
+    directly.  Current revisions keep the same values in one tensor and split
+    them inside the stock transformer block.  TunnelingNet runs the block
+    branches explicitly, so it performs that purely structural split here.
+    """
+    if not torch.is_tensor(modulation):
+        return modulation
+    if modulation.ndim == 2:
+        modulation = modulation.unsqueeze(1)
+    values = torch.chunk(modulation, 3 * parameter_sets, dim=-1)
+    return tuple(
+        values[3 * index : 3 * (index + 1)]
+        for index in range(parameter_sets)
+    )
+
+
 def flux2_tunneling_forward(transformer, target, conditions, reference, prompt_embeds, target_ids, condition_ids, reference_ids, text_ids, timestep, specify_lora, use_checkpoint, audio_modulation=None):
     # Official Omini routing generalized to FLUX.2. Multiple condition branches
     # are supported and all use the same trainable "default" adapter, matching
@@ -1890,9 +1909,13 @@ def flux2_tunneling_forward(transformer, target, conditions, reference, prompt_e
     image_mods = []
     for temb, adapter in zip(tembs[1:], adapters[1:]):
         with specify_lora((transformer.double_stream_modulation_img.linear,), adapter):
-            image_mods.append(transformer.double_stream_modulation_img(temb))
+            image_mods.append(split_flux2_modulation(
+                transformer.double_stream_modulation_img(temb), 2,
+            ))
     with specify_lora((transformer.double_stream_modulation_txt.linear,), adapters[0]):
-        text_mods = [transformer.double_stream_modulation_txt(tembs[0])]
+        text_mods = [split_flux2_modulation(
+            transformer.double_stream_modulation_txt(tembs[0]), 2,
+        )]
     position_embs = [transformer.pos_embed(text_ids[0] if text_ids.ndim == 3 else text_ids)]
     position_embs.extend(transformer.pos_embed(ids[0] if ids.ndim == 3 else ids) for ids in image_ids)
     n_image_states = len(image_states)
@@ -1910,7 +1933,9 @@ def flux2_tunneling_forward(transformer, target, conditions, reference, prompt_e
     single_mods = []
     for temb, adapter in zip(tembs, adapters):
         with specify_lora((transformer.single_stream_modulation.linear,), adapter):
-            single_mods.append(transformer.single_stream_modulation(temb)[0])
+            single_mods.append(split_flux2_modulation(
+                transformer.single_stream_modulation(temb), 1,
+            )[0])
     for block in transformer.single_transformer_blocks:
         fn = lambda *values, block=block: single_block_forward(block, list(values), single_mods, adapters, position_embs, specify_lora)
         states = checkpoint(fn, *states, use_reentrant=False) if use_checkpoint and torch.is_grad_enabled() else fn(*states)
