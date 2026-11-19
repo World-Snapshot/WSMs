@@ -379,11 +379,12 @@ preprocessor is required.
 
 ## License
 
-**In short:** You may use and modify these materials for noncommercial
-research, development, and training. Commercial use requires separate
-permission from Rutgers; contact **compliance@research.rutgers.edu** and
-reference **Rutgers Docket #2027-020**. The [LICENSE](LICENSE) file contains
-the governing terms.
+**In short:** You are welcome to use, study, modify, and extend this project
+for noncommercial purposes, including research, experimentation, development,
+training, evaluation, education, and personal projects. Commercial use
+requires separate permission from Rutgers; contact
+**compliance@research.rutgers.edu** and reference **Rutgers Docket #2027-020**.
+The [LICENSE](LICENSE) file contains the governing terms.
 
 WSMs is available under the Rutgers Non-commercial Research License (RU-NCRL)
 for academic, research, experimental, and personal noncommercial purposes.
