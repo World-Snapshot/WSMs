@@ -4,15 +4,15 @@
 
 <div class="authors">
   <a class="author-link" href="https://fangsen9000.github.io/" target="_blank" rel="noopener noreferrer">Sen Fang</a><sup>1</sup>,
-  <span>Yalin Feng</span><sup>2</sup>,
-  <span>Yancheng Zhang</span><sup>3</sup>,
-  <span>Yanxin Zhang</span><sup>4</sup>,
-  <span>Zonglin Lyu</span><sup>3</sup>,
-  <span>Hongbin Zhong</span><sup>5</sup><br>
-  <span>Liwei Che</span><sup>1</sup>,
-  <span>Rui Wu</span><sup>1</sup>,
+  <a class="author-link" href="https://yalin-feng.github.io/" target="_blank" rel="noopener noreferrer">Yalin Feng</a><sup>2</sup>,
+  <a class="author-link" href="https://yanchengzhang.com/" target="_blank" rel="noopener noreferrer">Yancheng Zhang</a><sup>3</sup>,
+  <a class="author-link" href="https://github.com/yanxinzhangcs" target="_blank" rel="noopener noreferrer">Yanxin Zhang</a><sup>4</sup>,
+  <a class="author-link" href="https://zonglinl.github.io/" target="_blank" rel="noopener noreferrer">Zonglin Lyu</a><sup>3</sup>,
+  <a class="author-link" href="https://rjzhb.github.io/" target="_blank" rel="noopener noreferrer">Hongbin Zhong</a><sup>5</sup><br>
+  <a class="author-link" href="https://pseudoc18.github.io/" target="_blank" rel="noopener noreferrer">Liwei Che</a><sup>1</sup>,
+  <a class="author-link" href="https://ruiwu1123.github.io/" target="_blank" rel="noopener noreferrer">Rui Wu</a><sup>1</sup>,
   <a class="author-link" href="https://www.crcv.ucf.edu/chenchen/" target="_blank" rel="noopener noreferrer">Chen Chen</a><sup>3</sup>,
-  <a class="author-link" href="https://people.cs.rutgers.edu/~dnm/" target="_blank" rel="noopener noreferrer">Dimitris N. Metaxas</a><sup>1</sup><fn data-init><span class="fn-text">IEEE Fellow, AIMBE Fellow, and MICCAI Society Fellow; Lead General Chair of CVPR 2014 and 2026, and ICCV 2011 and 2031, etc.</span></fn>
+  <a class="author-link" href="https://people.cs.rutgers.edu/~dnm/" target="_blank" rel="noopener noreferrer">Dimitris N. Metaxas</a><sup>1</sup><fn data-init><span class="fn-text">IEEE Fellow, AIMBE Fellow, and MICCAI Society Fellow; Lead General Chair of CVPR/ICCV in 2011, 2014, 2026, and 2031, etc.; and a long-standing member of the CVPR/ICCV Steering Committee and TC PAMI.</span></fn>
 </div>
 
 <div class="affiliations">
