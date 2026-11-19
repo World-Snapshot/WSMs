@@ -9,9 +9,9 @@
 [[Python Pipeline]](#inference) |
 [[Quickstart Notebook]](src/examples/WSM_Quickstart.ipynb) |
 [[WebUI]](https://github.com/World-Snapshot/ControlWorld) |
-[[Live Demo]](https://huggingface.co/spaces/FangSen9000/WSM-ControlWorld) |
 [[World Snapshot Graphics]](https://github.com/World-Snapshot/wsg) |
-[[Organization]](https://github.com/World-Snapshot)
+[[Organization]](https://github.com/World-Snapshot) |
+[[Live Demo]](https://huggingface.co/spaces/FangSen9000/WSM-ControlWorld)
 
 World Snapshot Models (WSMs) are an ideal world model designed to **unify, expand, and ultimately transcend Computer Vision**. The first version is WSM v1, codename Augustus.
 
