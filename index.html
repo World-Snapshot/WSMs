@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Unified Law for Visual Tasks (The Four Laws of Computer Vision)">
+    <title>Unified Law for Visual Tasks (The Four Laws of Computer Vision)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23eef0f2%27/%3E%3Ctext x=%2716%27 y=%2726%27 font-family=%27-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif%27 font-size=%2726%27 font-weight=%27500%27 text-anchor=%27middle%27 fill=%27%23202122%27%3EW%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23eef0f2%27/%3E%3Ctext x=%2716%27 y=%2726%27 font-family=%27-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif%27 font-size=%2726%27 font-weight=%27500%27 text-anchor=%27middle%27 fill=%27%23202122%27%3EW%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./assets/v1/static/styles.css?v=20261118-md-router2">
+    <link rel="stylesheet" href="./assets/v1/static/cite-button.css">
+    <link rel="stylesheet" href="./assets/version-selector.css?v=20260825-v4">
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">World Snapshot</div>
+        <div class="header-links">
+            <!-- <a href="./GALLERY.md" class="header-link">[Gallery]</a> -->
+            <a href="./" class="header-link" data-page-home>[Home]</a>
+            <a href="?page=news.md" class="header-link">[News]</a>
+            <a href="?page=timeline.md" class="header-link">[Timeline]</a>
+            <a href="https://world-snapshot.github.io/doc/index.html" class="header-link">[Document]</a>
+            <a href="https://github.com/World-Snapshot" class="header-link">[GitHub]</a>
+            <a href="https://x.com/SenFang01" class="header-link">[Author X]</a>
+            <!-- <div class="version-switcher">
+                <button class="version-button" type="button" aria-label="Select project-page version"><span class="version-label">Version&nbsp;V1</span><span class="version-caret" aria-hidden="true">▾</span></button>
+                <div class="version-menu">
+                    <a class="version-option active" href="./"><strong>V1</strong> <span>Default</span></a>
+                    <a class="version-option" href="./assets/v0/"><strong>V0</strong> <span>Archive</span></a>
+                </div>
+            </div> -->
+        </div>
+    </header>
+
+    <div class="sidebar-trigger"></div>
+    <nav class="sidebar">
+        <button class="lock-button">
+            <i class="fas fa-lock-open"></i>
+        </button>
+
+        <div class="nav-section">
+            <div class="nav-items">
+                <a href="#title" class="nav-link">Title</a>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">
+                <span class="nav-toggle"></span>
+                Overview
+            </div>
+            <div class="nav-items">
+                <a href="#teaser" class="nav-link">Teaser</a>
+                <a href="#abstract" class="nav-link">Abstract</a>
+                <a href="#insights" class="nav-link">Insights</a>
+                <a href="#method" class="nav-link">Method</a>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">
+                <span class="nav-toggle"></span>
+                Results
+            </div>
+            <div class="nav-items">
+                <a href="#qualitative-results" class="nav-link">Representative Qualitative</a>
+                <a href="#matrices-metrics" class="nav-link">Matrices &amp; Metrics</a>
+                <a href="#ablations-scaling" class="nav-link">Ablations &amp; Scaling</a>
+                <a href="#experiment" class="nav-link">Experiment</a>
+                <a href="#summary" class="nav-link">Conclusion</a>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">
+                <span class="nav-toggle"></span>
+                Community
+            </div>
+            <div class="nav-items">
+                <a href="#acknowledgments" class="nav-link">Acknowledgments</a>
+                <a href="#contributions" class="nav-link">Contributions</a>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">
+                <span class="nav-toggle"></span>
+                Other
+            </div>
+            <div class="nav-items">
+                <a href="#bibtex" class="nav-link">BibTeX</a>
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="hero-banner" id="title">
+        <div class="qualitative-ribbon" aria-hidden="true">
+            <div class="qualitative-ribbon-track">
+                <div class="qualitative-ribbon-group">
+                    <img src="./assets/v1/static/images/wsm_v1/four_interfaces.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/geometry_motion.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/human_structure.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/material_pbr.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/conditional_control.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/inverse_rendering.png" alt="">
+                </div>
+                <div class="qualitative-ribbon-group" aria-hidden="true">
+                    <img src="./assets/v1/static/images/wsm_v1/four_interfaces.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/geometry_motion.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/human_structure.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/material_pbr.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/conditional_control.png" alt="">
+                    <img src="./assets/v1/static/images/wsm_v1/inverse_rendering.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div id="title-content" class="hero-inner"></div>
+    </div>
+
+    <div class="container">
+        <div class="links">
+            <a href="./assets/v1/static/papers/world_snapshot_models_preprint.pdf" class="button" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-file-pdf"></i> Paper
+            </a>
+            <a href="https://github.com/World-Snapshot/WSMs" class="button" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github-square"></i> WSMs
+            </a>
+            <a href="https://github.com/World-Snapshot/ControlWorld" class="button" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-sliders-h"></i> ControlWorld
+            </a>
+            <a href="https://world-snapshot.github.io/doc/index.html" class="button" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-book"></i> Document
+            </a>
+            <a href="https://huggingface.co/World-Snapshot" class="button" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-database"></i> Hugging Face
+            </a>
+            <a href="#demos" class="button">
+                <i class="fas fa-play"></i> Demos
+            </a>
+        </div>
+
+        <section id="markdown-page-viewer" class="markdown-section project-section" hidden></section>
+
+        <div class="mixed-content">
+            <section id="teaser" class="project-section">
+                <details>
+                    <summary id="rotating-summary">TLDR (1/15): Encode all information to the boundary. By flattening the world into a two-dimensional space, visual generation becomes almost lossless world generation.</summary>
+                    <p class="tldr-more"><button type="button" id="tldr-toggle" aria-expanded="false" aria-controls="tldr-list">View all TLDRs</button></p>
+                    <ol id="tldr-list" class="tldr-list" hidden></ol>
+                </details>
+                <div class="paper-cover-grid">
+                    <figure class="paper-cover-panel">
+                        <img src="./assets/v1/static/images/wsm_v1/lex_i_generation.png" alt="Lex I: visual generation">
+                        <figcaption><b>Lex I · Generation.</b> Previous generation mostly generated RGB as a special case of visual generation.</figcaption>
+                    </figure>
+                    <figure class="paper-cover-panel">
+                        <img src="./assets/v1/static/images/wsm_v1/lex_ii_estimation.png" alt="Lex II: visual estimation">
+                        <figcaption><b>Lex II · Estimation.</b> Previous estimation tasks—understanding, segmentation, and detection—obtained World Information from RGB.</figcaption>
+                    </figure>
+                    <figure class="paper-cover-panel">
+                        <img src="./assets/v1/static/images/wsm_v1/lex_iii_control.png" alt="Lex III: conditional control">
+                        <figcaption><b>Lex III · Conditional Control.</b> Previous conditional control generated RGB from World Information.</figcaption>
+                    </figure>
+                    <figure class="paper-cover-panel">
+                        <img src="./assets/v1/static/images/wsm_v1/lex_iv_reconstruction.png" alt="Lex IV: reconstruction">
+                        <figcaption><b>Lex IV · Reconstruction.</b> Reconstruction estimates World Information from RGB, with all of this information encoding shape.</figcaption>
+                    </figure>
+                </div>
+                <p class="paper-cover-caption"><b>The Unified Law for Visual Tasks</b> flattens the world into a two-dimensional space, making visual generation almost lossless world generation. The Four Laws shown above are task forms for understanding the law, not a one-to-one list of training interfaces. Practical WSM interfaces merge and reorganize these forms according to real conditions and targets; for example, reconstruction is implemented within the estimation/reconstruction interface.</p>
+            </section>
+
+            <section id="abstract" class="project-section">
+                <h2>Abstract</h2>
+                <p>In this paper, we propose a Unified Law for Visual Tasks, which can be further divided into the Four Laws of Computer Vision, with the goal of enabling a single framework or method to uniformly train on and perform nearly all visual tasks. Our starting point is an inspiration and hypothesis: if world information is encoded into images, which we call World Snapshots, then image processing is world processing, and image generation is World Snapshot generation. Furthermore, if all visual and visualization tasks can be reformulated as generation tasks, then developing one model, referred to as a World Snapshot Model, would allow us to perform the vast majority of visual tasks, much as large language models have largely unified natural language processing. This work summarizes and validates these laws across more than 1,000 visual tasks and proposes a unified training framework for guiding future research and applications in visual tasks.</p>
+            </section>
+
+            <section id="insights" class="markdown-section">
+                <h2>Insights and Summary</h2>
+                <details>
+                    <summary>In this article, we attempt to address the real challenges currently faced by Computer Vision:</summary>
+                    <div id="insights-content"></div>
+                </details>
+                <div id="insights-contributions"></div>
+            </section>
+
+            <section id="method" class="project-section">
+                <h2>Method: The Tree of Computer Vision</h2>
+                <p>World Snapshot Graphics (<code>.wsg</code>) represents RGB and auxiliary world attributes in one 256-channel image-like format. TunnelingNet preserves a shared generative backbone while learning a compact, independently trainable path for each visual task.</p>
+                <figure class="task-graph-figure">
+                    <img src="./assets/wsg_task_graph_v3.png" alt="WSG task graph and the four generative interfaces">
+                    <figcaption><b>WSG task graph and the four generative interfaces.</b> RGB is the center of the visual task space. Text enters from the bottom and generates RGB; WSG modalities surround RGB as target or condition nodes. Each directed arrow is a trainable Channel Head parsed from the WSG modality graph. Arrow color indicates the task type: visual generation, estimation/reconstruction, conditional control, text-guided conditional generation, or inverse rendering. Dashed arrows denote Chains of Visual Thought, where text can reach non-RGB World Snapshot modalities through generated World Snapshots. Blue-outline nodes are dense WSG/visual targets, and orange-outline nodes are sparse digitized targets such as boxes, body parameters, skeletons, keypoints, or audio tokens. <a href="./WSM_v1/configs/wsg_v1_modalities_dense.json">Dense Task Graph</a> · <a href="./WSM_v1/configs/wsg_v1_modalities_sparse.json">Sparse Task Graph</a> · <a href="./WSM_v1/configs/wsg_v1_modalities_custom.json">Custom Task Graph</a></figcaption>
+                </figure>
+            </section>
+
+            <section id="qualitative-results" class="project-section">
+                <h2>Representative Qualitative</h2>
+                <div class="results-wall" data-results-wall="qualitative"></div>
+            </section>
+
+            <section id="matrices-metrics" class="project-section">
+                <h2>Matrices &amp; Metrics</h2>
+                <div class="results-gallery" data-results-gallery="matrices">
+                    <div class="links results-item-tabs" aria-label="Matrix and metric figures"></div>
+                    <figure class="showcase-card results-stage">
+                        <button type="button" class="results-arrow results-arrow-prev" data-results-prev aria-label="Previous figure">&#9664;</button>
+                        <div class="results-stage-link"><img class="results-stage-image" src="./assets/v1/static/images/wsm_v1/results/cvpr_complete_task_tables.jpg?v=20260905-paper-current" alt="Complete CVPR Task Tables · Parts I–V"></div>
+                        <button type="button" class="results-arrow results-arrow-next" data-results-next aria-label="Next figure">&#9654;</button>
+                        <figcaption><strong class="results-stage-title">Fig. Complete CVPR Task Tables · Parts I–V</strong> <span class="results-stage-counter">1 / 3</span></figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <section id="ablations-scaling" class="project-section">
+                <h2>Ablations &amp; Scaling</h2>
+                <div class="results-gallery" data-results-gallery="analysis">
+                    <div class="links results-item-tabs" aria-label="Ablation and scaling figures"></div>
+                    <figure class="showcase-card results-stage">
+                        <button type="button" class="results-arrow results-arrow-prev" data-results-prev aria-label="Previous figure">&#9664;</button>
+                        <div class="results-stage-link"><img class="results-stage-image" src="./assets/v1/static/images/wsm_v1/results/ablation_validation_curves.jpg?v=20260905-paper-current" alt="Task-dependent Attention Topology"></div>
+                        <button type="button" class="results-arrow results-arrow-next" data-results-next aria-label="Next figure">&#9654;</button>
+                        <figcaption><strong class="results-stage-title">Fig. Task-dependent Attention Topology</strong> <span class="results-stage-counter">1 / 7</span></figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <section id="experiment" class="project-section">
+                <h2>Experiment</h2>
+                <div class="metric-grid">
+                    <div class="metric-card"><span class="metric-value">2,293+</span><span class="metric-label">training attempts, incl. failed alternatives</span></div>
+                    <div class="metric-card"><span class="metric-value">1,148</span><span class="metric-label">evaluated visual tasks</span></div>
+                    <div class="metric-card"><span class="metric-value">3,042</span><span class="metric-label">configured visual tasks</span></div>
+                    <div class="metric-card"><span class="metric-value">18B</span><span class="metric-label">WSM v1 model size</span></div>
+                </div>
+                <p class="experiment-summary">Beginning with the initial WSG idea in 2024, the next two years of development covered <strong>60 experimental families</strong> and <strong>198 named variants</strong>. Across this process, we accumulated <strong>at least 2,293 training attempts documented in surviving records</strong>. Complete configurations remain for <strong>1,546 different training runs</strong>, and weights remain for at least <strong>1,380 trained models</strong>. Once this evidence converged, we formally stated the Unified Law and developed the complete framework: WSG organizes RGB and additional world information, WSM installs the resulting visual capabilities around a shared generative backbone, and TunnelingNet redirects that backbone toward each requested target at low marginal cost. Using this final framework, we trained and evaluated <strong>1,148 visual tasks</strong> across 39 output groups and all four interfaces. The development process explains how the law and mechanism were discovered, while the final evaluation tests how broadly the resulting method works.</p>
+                <p class="experiment-summary experiment-example">For example, on three parameter-matched structured visual tasks, TunnelingNet produces clean, recognizable outputs in 27&ndash;47 minutes and reveals the first recognizable structure <strong>77&ndash;100&times; earlier</strong> than LoRA with native joint attention. Some individual task tunnels already achieve competitive results after only <strong>roughly two to three hours of training</strong>. In external evaluations, the same unified WSM surpasses <strong>VGGT and ControlNet, two Best Paper Award methods</strong>, as well as <strong>Marigold, a Best Paper Award Candidate</strong>, on the reported metrics in their respective comparisons.</p>
+            </section>
+
+            <section id="summary" class="project-section">
+                <h2>Paper Conclusion</h2>
+                <p>We presented the Unified Law for Visual Tasks, which expresses visual tasks as transformations among image-like World Snapshots. World Snapshot Graphics encodes RGB and auxiliary attributes in a 256-channel representation. Four practical interfaces instantiate the high-level task forms through estimation/reconstruction, narrow visual generation, additional-channel conditional control, and RGB-assisted inverse rendering. We validate the method and the law across 1,148 visual tasks. Among the tasks recorded by Papers with Code, 1,477 are visual or vision-related tasks, broadly representing the vast established field of Computer Vision. All 1,477 tasks are compatible with the WSM interfaces and can be expressed by the same system. <b>After half a century of development, we bring the vast field of Computer Vision into a unified generative framework.</b> <b>WSM creates an estimated 655–1,056 entirely new visual tasks and expands Computer Vision by 44.3–71.5%.</b> Every evaluated task is accompanied by a trained baseline. WSM therefore consolidates the historical field while opening a substantially larger visual-task space.</p>
+            </section>
+
+            <section id="acknowledgments" class="markdown-section"></section>
+
+            <section id="contributions" class="markdown-section"></section>
+
+            <section id="bibtex" class="markdown-section"></section>
+        </div>
+    </div>
+
+    <footer>
+        <p>This website is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</p>
+        <p>
+            The page uses the
+            <a href="https://github.com/World-Snapshot/WSMs">World Snapshot website template</a>.
+        </p>
+    </footer>
+
+    <script>
+        const md = window.markdownit({
+            html: true,
+            linkify: true,
+            typographer: true,
+            highlight: function (str, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return hljs.highlight(str, { language: lang }).value;
+                    } catch (__) {}
+                }
+                return '';
+            }
+        });
+
+        // Universal Markdown-page renderer adapted from the personal-site shell.
+        // It supports local and remote Markdown, nested Markdown navigation,
+        // relative resources, URL state, anchors, caching, and hover prefetching.
+        const markdownCache = new Map();
+        let currentMarkdownPage = '';
+        const homeDocumentTitle = document.title;
+        const markdownPageDirectory = 'assets/v1/doc/';
+
+        function isRemoteMarkdownPage(page) {
+            return /^https?:\/\//i.test(page);
+        }
+
+        function normalizeRemoteMarkdownUrl(url) {
+            try {
+                const parsed = new URL(url);
+                if (parsed.hostname === 'github.com') {
+                    const parts = parsed.pathname.split('/').filter(Boolean);
+                    if (parts.length >= 5 && parts[2] === 'blob' && /\.md$/i.test(parts[parts.length - 1])) {
+                        const [owner, repo, , branch, ...rest] = parts;
+                        return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${rest.join('/')}`;
+                    }
+                }
+                return url;
+            } catch (_) {
+                return url;
+            }
+        }
+
+        function isAllowedRemoteMarkdownUrl(page) {
+            try {
+                const parsed = new URL(normalizeRemoteMarkdownUrl(page));
+                return /^https?:$/i.test(parsed.protocol) && /\.md$/i.test(parsed.pathname);
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function normalizeMarkdownPage(page) {
+            if (!page) return '';
+            // A simple slug is the public route for a Markdown file in the
+            // project-page document directory. Future pages need no alias table.
+            if (/^[a-z0-9][a-z0-9_-]*(?:\/[a-z0-9][a-z0-9_-]*)*$/i.test(page)) {
+                return `${markdownPageDirectory}${page}.md`;
+            }
+            if (isRemoteMarkdownPage(page)) {
+                return isAllowedRemoteMarkdownUrl(page) ? normalizeRemoteMarkdownUrl(page) : '';
+            }
+            if (page.startsWith('/') || page.startsWith('//')) return '';
+            return /\.md$/i.test(page.split(/[?#]/, 1)[0]) ? page : '';
+        }
+
+        function normalizePublicMarkdownPage(page) {
+            if (/^[a-z0-9][a-z0-9_-]*(?:\/[a-z0-9][a-z0-9_-]*)*\.md$/i.test(page || '')) {
+                return `${markdownPageDirectory}${page}`;
+            }
+            return normalizeMarkdownPage(page);
+        }
+
+        function publicMarkdownPage(page) {
+            if (page.startsWith(markdownPageDirectory)) {
+                const relativePage = page.slice(markdownPageDirectory.length);
+                if (/^[a-z0-9][a-z0-9_-]*(?:\/[a-z0-9][a-z0-9_-]*)*\.md$/i.test(relativePage)) {
+                    return relativePage;
+                }
+            }
+            return page;
+        }
+
+        function encodePublicMarkdownPage(page) {
+            const publicPage = publicMarkdownPage(page);
+            if (/^[a-z0-9][a-z0-9_-]*(?:\/[a-z0-9][a-z0-9_-]*)*(?:\.md)?$/i.test(publicPage)) {
+                return publicPage.split('/').map(encodeURIComponent).join('/');
+            }
+            return encodeURIComponent(publicPage);
+        }
+
+        function requestedMarkdownPage() {
+            const page = new URLSearchParams(window.location.search).get('page');
+            return normalizePublicMarkdownPage(page);
+        }
+
+        async function fetchMarkdownPage(page) {
+            if (markdownCache.has(page)) return markdownCache.get(page);
+            const request = (async () => {
+                if (!isRemoteMarkdownPage(page)) {
+                    const response = await fetch(page);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.text();
+                }
+                const proxies = [
+                    url => url,
+                    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+                ];
+                let lastError = null;
+                for (const proxy of proxies) {
+                    try {
+                        const response = await fetch(proxy(page));
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        return response.text();
+                    } catch (error) {
+                        lastError = error;
+                    }
+                }
+                throw lastError || new Error('Failed to load remote Markdown');
+            })();
+            markdownCache.set(page, request);
+            try {
+                return await request;
+            } catch (error) {
+                markdownCache.delete(page);
+                throw error;
+            }
+        }
+
+        function resolveMarkdownTarget(href, currentPage) {
+            const [pathPart, hashPart] = href.split('#', 2);
+            let resolvedPage;
+
+            if (isRemoteMarkdownPage(currentPage)) {
+                resolvedPage = normalizeRemoteMarkdownUrl(new URL(pathPart, currentPage).href);
+            } else if (isRemoteMarkdownPage(pathPart)) {
+                resolvedPage = normalizeRemoteMarkdownUrl(pathPart);
+            } else {
+                const currentDir = currentPage.includes('/')
+                    ? currentPage.slice(0, currentPage.lastIndexOf('/') + 1)
+                    : '';
+                resolvedPage = new URL(pathPart, `https://local/${currentDir}`).pathname.replace(/^\/+/, '');
+            }
+
+            return {
+                page: normalizeMarkdownPage(resolvedPage),
+                hash: hashPart ? `#${hashPart}` : ''
+            };
+        }
+
+        function rewriteMarkdownResources(container, page) {
+            const sourceUrl = new URL(page, window.location.href);
+            container.querySelectorAll('img[src], video[src], source[src]').forEach(media => {
+                media.src = new URL(media.getAttribute('src'), sourceUrl).href;
+            });
+            container.querySelectorAll('a[href]').forEach(link => {
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('javascript:')) return;
+                const pathPart = href.split('#', 1)[0];
+                if (/\.md(?:$|\?)/i.test(pathPart)) {
+                    const target = resolveMarkdownTarget(href, page);
+                    if (target.page) {
+                        link.href = `?page=${encodePublicMarkdownPage(target.page)}${target.hash}`;
+                    }
+                    return;
+                }
+                link.href = new URL(href, sourceUrl).href;
+            });
+        }
+
+        function updateMarkdownPageUrl(page, hash = '', replace = false) {
+            const url = new URL(window.location.href);
+            url.search = '';
+            url.hash = hash;
+            const pageQuery = `?page=${encodePublicMarkdownPage(page)}`;
+            history[replace ? 'replaceState' : 'pushState'](
+                { markdownPage: page },
+                '',
+                `${url.pathname}${pageQuery}${url.hash}`
+            );
+        }
+
+        function scrollToMarkdownHash(hash) {
+            if (!hash) {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+                return;
+            }
+            requestAnimationFrame(() => {
+                const target = document.getElementById(decodeURIComponent(hash.replace(/^#/, '')));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        function renderHomePage(updateHistory = false, hash = '') {
+            currentMarkdownPage = '';
+            document.querySelector('.hero-banner').hidden = false;
+            document.querySelector('.container > .links').hidden = false;
+            document.querySelector('.mixed-content').hidden = false;
+            document.querySelector('.sidebar').hidden = false;
+            document.querySelector('.sidebar-trigger').hidden = false;
+            document.getElementById('markdown-page-viewer').hidden = true;
+            document.title = homeDocumentTitle;
+
+            if (updateHistory) {
+                const url = new URL(window.location.href);
+                url.search = '';
+                url.hash = hash;
+                history.pushState({ home: true }, '', `${url.pathname}${url.hash}`);
+            }
+
+            if (hash) {
+                requestAnimationFrame(() => {
+                    document.getElementById(decodeURIComponent(hash.replace(/^#/, '')))
+                        ?.scrollIntoView({ behavior: 'smooth' });
+                });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+        }
+
+        async function renderMarkdownPage(page, updateHistory = false, hash = '') {
+            const normalizedPage = normalizeMarkdownPage(page);
+            if (!normalizedPage) throw new Error('Unsupported Markdown page');
+            const viewer = document.getElementById('markdown-page-viewer');
+            document.querySelector('.hero-banner').hidden = true;
+            document.querySelector('.container > .links').hidden = true;
+            document.querySelector('.mixed-content').hidden = true;
+            document.querySelector('.sidebar').hidden = true;
+            document.querySelector('.sidebar-trigger').hidden = true;
+            viewer.hidden = false;
+            viewer.style.paddingTop = '54px';
+
+            try {
+                const markdown = await fetchMarkdownPage(normalizedPage);
+                const template = document.createElement('template');
+                template.innerHTML = md.render(markdown);
+                viewer.classList.remove('timeline-details-collapsed');
+                viewer.replaceChildren(template.content);
+                currentMarkdownPage = normalizedPage;
+                rewriteMarkdownResources(viewer, normalizedPage);
+
+                viewer.querySelectorAll('img').forEach(image => {
+                    image.loading = 'lazy';
+                    image.decoding = 'async';
+                });
+                viewer.querySelectorAll('pre code').forEach(block => {
+                    if (window.hljs) window.hljs.highlightElement(block);
+                });
+
+                // Local Markdown belongs to this repository and may define its own
+                // small interactive behavior. Remote Markdown remains content-only.
+                if (!isRemoteMarkdownPage(normalizedPage)) executeMarkdownScripts(viewer);
+
+                const title = viewer.querySelector('h1, h2');
+                if (title) {
+                    document.title = `${title.textContent.trim()} · World Snapshot`;
+                }
+                addHeaderLinks();
+                if (updateHistory) updateMarkdownPageUrl(normalizedPage, hash);
+                scrollToMarkdownHash(hash);
+            } catch (error) {
+                console.error(`Error loading ${normalizedPage}:`, error);
+                const heading = document.createElement('h2');
+                const message = document.createElement('p');
+                heading.textContent = 'Unable to load Markdown';
+                message.textContent = error.message;
+                viewer.replaceChildren(heading, message);
+                if (updateHistory) updateMarkdownPageUrl(normalizedPage, hash);
+            }
+        }
+
+        function setupMarkdownPageNavigation() {
+            document.addEventListener('click', event => {
+                const link = event.target.closest('a[href]');
+                if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                let parsed;
+                try { parsed = new URL(link.href, window.location.href); } catch (_) { return; }
+
+                if (link.matches('[data-page-home]') && parsed.origin === window.location.origin) {
+                    event.preventDefault();
+                    renderHomePage(true, parsed.hash);
+                    return;
+                }
+
+                const queryPage = parsed.origin === window.location.origin
+                    ? normalizePublicMarkdownPage(parsed.searchParams.get('page'))
+                    : '';
+                if (queryPage) {
+                    event.preventDefault();
+                    renderMarkdownPage(queryPage, true, parsed.hash);
+                    return;
+                }
+
+                if (!/\.md$/i.test(parsed.pathname)) return;
+                const target = resolveMarkdownTarget(
+                    link.getAttribute('href'),
+                    currentMarkdownPage
+                );
+                if (!target.page) return;
+                event.preventDefault();
+                renderMarkdownPage(target.page, true, target.hash);
+            });
+
+            document.addEventListener('mouseover', event => {
+                const link = event.target.closest('a[href]');
+                if (!link || link.dataset.markdownPrefetched) return;
+                let parsed;
+                try { parsed = new URL(link.href, window.location.href); } catch (_) { return; }
+                const page = normalizePublicMarkdownPage(parsed.searchParams.get('page'));
+                if (!page) return;
+                link.dataset.markdownPrefetched = 'true';
+                fetchMarkdownPage(page).catch(() => {});
+            });
+
+            window.addEventListener('popstate', () => {
+                const page = requestedMarkdownPage();
+                if (page) {
+                    renderMarkdownPage(page, false, window.location.hash);
+                } else {
+                    renderHomePage(false, window.location.hash);
+                }
+            });
+        }
+
+        const rotatingSummaries = [
+            "TLDR (1/15): Encode all information to the boundary. By flattening the world into a two-dimensional space, visual generation becomes almost lossless world generation.",
+            "TLDR (2/15): A World Snapshot Model turns visual generation into rich-information generation across RGB, geometry, motion, pose, physics, materials, semantics, audio, and other visualizable information.",
+            "TLDR (3/15): An ideal visual model requires spatial and temporal structure, dense representations, semantic instances, physical constraints, bidirectional inference, and representations that remain Reasonable, Interpretable, Visualizable, and Editable.",
+            "TLDR (4/15): The Four Laws are task forms: text-to-RGB generation, RGB-to-additional-information estimation, additional-information-to-RGB conditional control, and RGB-to-organized-shape reconstruction.",
+            "TLDR (5/15): TunnelingNet lets thousands of compact task routes learn independently and in parallel while sharing one visual generator.",
+            "TLDR (6/15): Conformal symmetry and relative position give visual representations greater geometric freedom, robustness, and compatibility across resolution and scale.",
+            "TLDR (7/15): Increasing the information carried by WSG while constraining the learned distribution improves semantic consistency across visual tasks.",
+            "TLDR (8/15): Like normal and red-green color-blind observers describing the same object, task routes need not share identical internal perception to use the same generator.",
+            "TLDR (9/15): A moving camera provides essential evidence about the world; changing viewpoint queries a higher-dimensional visual manifold rather than one fixed image plane.",
+            "TLDR (10/15): Explicit geometry, motion, material, support, and physical-property targets create a path toward visual models that reason about how the world can evolve.",
+            "TLDR (11/15): A visual task is defined jointly by its input evidence and requested output target; changing either side defines a different task.",
+            "TLDR (12/15): Task tunnels are separate for efficient training and distribution, but they can be registered together as one unified model at deployment.",
+            "TLDR (13/15): Connecting trained routes creates Chains of Visual Thought, where one generated World Snapshot becomes evidence for the next inference step.",
+            "TLDR (14/15): The Four Laws explain visual task forms; practical training interfaces implement them according to real conditions and targets and may merge them, as with the estimation/reconstruction interface.",
+            "TLDR (15/15): WSM is compatible with 1,477 established visual tasks and creates 655–1,056 new ones, unifying and expanding Computer Vision in one generative framework."
+        ];
+        const rotatingSummaryElement = document.getElementById("rotating-summary");
+        const tldrToggleElement = document.getElementById("tldr-toggle");
+        const tldrListElement = document.getElementById("tldr-list");
+        let rotatingSummaryIndex = 0;
+        if (rotatingSummaryElement) {
+            setInterval(() => {
+                rotatingSummaryIndex = (rotatingSummaryIndex + 1) % rotatingSummaries.length;
+                rotatingSummaryElement.textContent = rotatingSummaries[rotatingSummaryIndex];
+            }, 5500);
+        }
+        if (tldrToggleElement && tldrListElement) {
+            rotatingSummaries.forEach(summary => {
+                const item = document.createElement("li");
+                item.textContent = summary;
+                tldrListElement.appendChild(item);
+            });
+            tldrToggleElement.addEventListener("click", () => {
+                const shouldExpand = tldrListElement.hidden;
+                tldrListElement.hidden = !shouldExpand;
+                tldrToggleElement.setAttribute("aria-expanded", String(shouldExpand));
+                tldrToggleElement.textContent = shouldExpand ? "Hide all TLDRs" : "View all TLDRs";
+            });
+        }
+
+        const contentSections = [
+            { id: 'title-content', type: 'markdown', file: 'assets/v1/doc/00_title_wsm_v1.md' },
+            { id: 'insights-content', type: 'markdown', file: 'assets/v1/doc/04_summary_wsm_v1.md' },
+            { id: 'insights-contributions', type: 'markdown', file: 'assets/v1/doc/04_summary_contributions_wsm_v1.md' },
+            { id: 'acknowledgments', type: 'markdown', file: 'assets/v1/doc/05_acknowledgments_wsm_v1.md' },
+            { id: 'contributions', type: 'markdown', file: 'assets/v1/doc/06_contributions_wsm_v1.md' },
+            // Legacy source sections remain in assets/v1/doc for future reference.
+            // The current WSM v1 content is rendered directly above so index.html
+            // also works when opened through file:// without a local web server.
+            // { id: 'teaser', type: 'markdown', file: 'assets/v1/doc/00_teaser.md' },
+            // { id: 'abstract', type: 'markdown', file: 'assets/v1/doc/01_abstract.md' },
+            // { id: 'demos', type: 'markdown', file: 'assets/v1/doc/02_demos.md' },
+            // { id: 'experiment', type: 'markdown', file: 'assets/v1/doc/03_experiment.md' },
+            // { id: 'summary', type: 'markdown', file: 'assets/v1/doc/04_summary.md' },
+            // { id: 'acknowledgments', type: 'markdown', file: 'assets/v1/doc/05_acknowledgments.md' },
+            // { id: 'contributions', type: 'markdown', file: 'Contributing.md' },
+            { id: 'bibtex', type: 'markdown', file: 'assets/v1/doc/07_bibtex.md' }
+        ];
+
+        async function loadAndRenderContent() {
+            const markdownPage = requestedMarkdownPage();
+            if (markdownPage) {
+                await renderMarkdownPage(markdownPage);
+            }
+            // Browsers block fetch() for local file:// pages. The sections above
+            // provide the same active content so index.html remains directly openable.
+            if (window.location.protocol === 'file:') {
+                addHeaderLinks();
+                return;
+            }
+
+            for (const section of contentSections) {
+                if (section.type === 'markdown') {
+                    try {
+                        const response = await fetch(section.file);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const markdown = await response.text();
+                        const element = document.getElementById(section.id);
+                        if (element) {
+                            element.innerHTML = md.render(markdown);
+                        }
+                    } catch (error) {
+                        console.error(`Error loading ${section.file}:`, error);
+                        const element = document.getElementById(section.id);
+                        if (element) {
+                            element.innerHTML = `<p>Error loading content for ${section.id}</p>`;
+                        }
+                    }
+                }
+            }
+
+            addHeaderLinks();
+            executeMarkdownScripts();
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        history.replaceState(null, null, `#${targetId}`);
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+
+                        setTimeout(() => {
+                            history.replaceState(null, null, window.location.pathname);
+                        }, 200);
+
+                        if (!sidebar.classList.contains('locked')) {
+                            sidebar.classList.remove('active');
+                        }
+                    }
+                });
+            });
+
+            setTimeout(() => {
+                if (window.location.hash) {
+                    const element = document.getElementById(window.location.hash.substring(1));
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            }, 100);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }, 100);
+
+            setupMarkdownPageNavigation();
+            loadAndRenderContent();
+
+            setTimeout(() => {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.classList.add('active');
+                setTimeout(() => {
+                    if (!sidebar.classList.contains('locked')) {
+                        sidebar.classList.remove('active');
+                    }
+                }, 1000);
+            }, 100);
+        });
+
+        const lockButton = document.querySelector('.lock-button');
+        const sidebar = document.querySelector('.sidebar');
+
+        lockButton.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-lock-open')) {
+                icon.classList.remove('fa-lock-open');
+                icon.classList.add('fa-lock');
+                sidebar.classList.add('locked');
+            } else {
+                icon.classList.remove('fa-lock');
+                icon.classList.add('fa-lock-open');
+                sidebar.classList.remove('locked');
+                sidebar.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.nav-section-title').forEach(title => {
+            title.addEventListener('click', () => {
+                const section = title.closest('.nav-section');
+                section.classList.toggle('collapsed');
+            });
+        });
+
+        function executeMarkdownScripts(root = document) {
+            const markdownSections = root.matches && root.matches('.markdown-section')
+                ? [root]
+                : root.querySelectorAll('.markdown-section');
+            markdownSections.forEach(section => {
+                const scripts = section.querySelectorAll('script');
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    Array.from(script.attributes).forEach(attr => {
+                        newScript.setAttribute(attr.name, attr.value);
+                    });
+                    script.parentNode.replaceChild(newScript, script);
+                });
+            });
+        }
+
+        function addHeaderLinks() {
+            function generateSlug(text) {
+                return text
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-|-$/g, '');
+            }
+
+            const headers = document.querySelectorAll('.markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4, .markdown-section h5, .markdown-section h6, .html-section h1, .html-section h2, .html-section h3, .html-section h4, .html-section h5, .html-section h6');
+
+            headers.forEach(header => {
+                const cleanHeader = header.cloneNode(true);
+                cleanHeader.querySelectorAll('a, button').forEach(control => control.remove());
+                const text = cleanHeader.textContent.trim();
+                const slug = generateSlug(text);
+                if (!header.id) header.id = slug;
+
+                // Dynamic Markdown pages reuse this function. Keep repeated calls
+                // from appending another anchor to headings already initialized.
+                if (header.querySelector(':scope > a.header-link')) return;
+
+                const link = document.createElement('a');
+                link.href = `#${header.id}`;
+                link.className = 'header-link';
+                link.innerHTML = '#';
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    history.pushState(null, null, `#${header.id}`);
+                    header.scrollIntoView({ behavior: 'smooth' });
+                });
+                header.appendChild(link);
+            });
+
+            if (typeof CiteButton !== 'undefined') {
+                CiteButton.init({
+                    author: 'Sen Fang, Yalin Feng, Yancheng Zhang, Yanxin Zhang, Zonglin Lyu, Hongbin Zhong, Liwei Che, Rui Wu, Chen Chen, and Dimitris N. Metaxas',
+                    title: 'Unified Law for Visual Tasks (The Four Laws of Computer Vision)',
+                    yearMode: 2026,
+                    headerSelector: '.markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4, .markdown-section h5, .markdown-section h6, .html-section h1, .html-section h2, .html-section h3, .html-section h4, .html-section h5, .html-section h6'
+                });
+            }
+        }
+    </script>
+
+    <script src="./assets/v1/static/results-gallery.js"></script>
+    <script src="./assets/v1/static/image-viewer.js"></script>
+    <script src="./assets/v1/static/cite-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "record_name": "Default native sparse Channel-Head evaluation",
+  "record_date": "2026-09-04",
+  "scope": {
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6,
+      10
+    ],
+    "selection_rule": "Heads enabled by default in scripts/launch_scripts/train_sparse_structure_models.sh and carrying a recommended_checkpoint in configs/wsg_v1_modalities_sparse.json.",
+    "comparison_rule": "Each sparse output is evaluated in its native geometry, localization, or classification space. Metrics from different Heads are not averaged or ranked against one another.",
+    "split_note": "The record preserves the held-out split used by each task's existing evaluator. Head 010 reports the validation-selected metrics stored by its two deployed refinement components."
+  },
+  "heads": {
+    "Channel_Head_000000": {
+      "mapping": "RGB crop -> SMPL pose and shape",
+      "checkpoint": "train_log_sparse/Channel_Head_000000/20260810_184401_wsv_structured_scorehmr/scorehmr/checkpoints/run/model-step_0010000.pt",
+      "split": "test",
+      "samples": 22529,
+      "protocol": "ScoreHMR 14-joint evaluation after per-sample Procrustes similarity alignment; PCK is computed in the same aligned millimeter joint space.",
+      "metrics": {
+        "pa_mpjpe_mm_mean": 151.071,
+        "pa_joint_error_mm_median": 125.911,
+        "pck_50mm": 0.220486,
+        "pck_100mm": 0.407986,
+        "smpl_betas_mae": 0.0372833
+      },
+      "paper_metrics": [
+        "smpl_betas_mae"
+      ],
+      "dataset": "data/sparse_structure/datasets/wsv_structured_scorehmr_smpl_smplerx_region_test.npz"
+    },
+    "Channel_Head_000001": {
+      "mapping": "RGB -> person boxes",
+      "checkpoint": "train_log_sparse/Channel_Head_000001/20260811_144000_bbox_pretrained_center_gaussian/ckpt/model-best.pt",
+      "split": "test",
+      "samples": 8292,
+      "metrics": {
+        "loss": 3.4482960123004336,
+        "precision": 0.8201073143179892,
+        "recall": 0.7703735144312394,
+        "f1": 0.7944628347878423,
+        "count_mae": 0.4002653159671973,
+        "mean_confidence": 0.6539276838302612,
+        "ece": 0.17226304477851329
+      },
+      "paper_metrics": [
+        "precision",
+        "recall",
+        "f1"
+      ]
+    },
+    "Channel_Head_000002": {
+      "mapping": "RGB crop -> DWPose",
+      "checkpoint": "train_log_sparse/Channel_Head_000002/20260811_135035_dwpose_kinematic_rotations/ckpt/model-best.pt",
+      "split": "validation",
+      "samples": 1596,
+      "evaluated_points": 156944,
+      "protocol": "XY errors and PCK thresholds are normalized by the crop coordinate system.",
+      "metrics": {
+        "mean_xy_error": 0.15822096616787593,
+        "median_xy_error": 0.09250011295080185,
+        "pck_0.05": 0.29462738301559793,
+        "pck_0.10": 0.5260092771944133,
+        "pck_0.20": 0.724978336221837
+      },
+      "paper_metrics": [
+        "median_xy_error",
+        "pck_0.10",
+        "pck_0.20"
+      ]
+    },
+    "Channel_Head_000003": {
+      "mapping": "RGB crop -> MediaPipe pose",
+      "checkpoint": "train_log_sparse/Channel_Head_000003/20260811_135035_mediapipe_kinematic_rotations/ckpt/model-best.pt",
+      "split": "validation",
+      "samples": 1488,
+      "evaluated_points": 39296,
+      "protocol": "XY errors and PCK thresholds are normalized by the crop coordinate system.",
+      "metrics": {
+        "mean_xy_error": 0.14000782975506096,
+        "median_xy_error": 0.08515597134828568,
+        "pck_0.05": 0.2869757736156352,
+        "pck_0.10": 0.5679203990228013,
+        "pck_0.20": 0.7971040309446255
+      },
+      "paper_metrics": [
+        "median_xy_error",
+        "pck_0.10",
+        "pck_0.20"
+      ]
+    },
+    "Channel_Head_000005": {
+      "mapping": "Audio + RGB -> sound-source box",
+      "checkpoint": "train_log_sparse/Channel_Head_000005/20260811_183000_clip_frozen_mask_fused_final/ckpt/model-best.pt",
+      "split": "test",
+      "samples": 10936,
+      "checkpoint_step": 1150,
+      "protocol": "Strict single-checkpoint evaluation on the complete task test split.",
+      "metrics": {
+        "mean_iou": 0.32522866129875183,
+        "macro_category_iou": 0.3249852814926551,
+        "iou_at_0.5": 0.350768119096756
+      },
+      "paper_metrics": [
+        "mean_iou",
+        "macro_category_iou",
+        "iou_at_0.5"
+      ]
+    },
+    "Channel_Head_000006": {
+      "mapping": "Audio -> semantic category",
+      "checkpoint": "train_log_sparse/Channel_Head_000006/20260811_175200_prototype_temporal5_video_balanced/ckpt/model-best.pt",
+      "split": "test",
+      "samples": 10936,
+      "classes": 26,
+      "metrics": {
+        "top1_accuracy": 0.6706291148500366,
+        "balanced_accuracy": 0.601781938997392
+      },
+      "paper_metrics": [
+        "top1_accuracy",
+        "balanced_accuracy"
+      ]
+    },
+    "Channel_Head_000010": {
+      "mapping": "RGB + audio -> sounding regions",
+      "checkpoint": "train_log_sparse/Channel_Head_000010/20260823_205300_head010_rgb195_frozen_category_audio_selector/ckpt/final_step_0001000/pytorch_lora_weights.safetensors",
+      "split": "validation",
+      "components": {
+        "audio_region_selector": {
+          "record": "train_log_sparse/Channel_Head_000010/20260823_205300_head010_rgb195_frozen_category_audio_selector/audio_region_selector/best_metrics.json",
+          "checkpoint_step": 350,
+          "candidate_samples": 1448,
+          "metrics": {
+            "accuracy": 0.7410220994475138,
+            "balanced_accuracy": 0.7475800532158914,
+            "selection_precision": 0.6717226435536294,
+            "selection_recall": 0.8959537572254336,
+            "selection_f1": 0.7678018575851394,
+            "frame_exact_accuracy": 0.5230202578268877,
+            "selection_threshold": 0.35000000000000003
+          }
+        },
+        "categorical_refiner": {
+          "record": "train_log_sparse/Channel_Head_000010/20260823_205300_head010_rgb195_frozen_category_audio_selector/categorical_refiner/best_metrics.json",
+          "checkpoint_step": 1850,
+          "samples": 8251,
+          "classes": 26,
+          "metrics": {
+            "accuracy": 0.7957823294146165,
+            "balanced_accuracy": 0.7098624779257598
+          }
+        }
+      },
+      "paper_metrics": [
+        "audio_region_selector.selection_f1",
+        "categorical_refiner.accuracy"
+      ]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "samples_per_task": 24,
+  "policy": "freeze_the_same_sample_ids_before_any_inference",
+  "primary_suite": {
+    "source": "sealed_post_cutoff_cross_modal_manifest",
+    "created_after": "2026-01-01",
+    "required_fields": [
+      "sample_id",
+      "task",
+      "input_path",
+      "condition_path",
+      "target_path",
+      "capture_date",
+      "training_overlap",
+      "sealed_before_evaluation",
+      "provenance_visibility",
+      "strata"
+    ],
+    "status": "blocked_until_user_or_data_pipeline_provides_candidate_manifest"
+  },
+  "task_suites": {
+    "conditional_rgb": {
+      "primary": "24 sealed post-cutoff RGB images with edge/normal conditions",
+      "supplement": "COCO val2017, 24 fixed images, high contamination risk",
+      "metrics": ["LPIPS", "SSIM", "PSNR", "CLIP", "edge_overlap", "normal_consistency"]
+    },
+    "semantic_estimation": {
+      "primary": "24 frozen AVIS test RGB/channel-103 pairs with the native WSM ontology",
+      "supplement": "An external human-parsing benchmark with an explicit mapping to the six WSM classes",
+      "target_channel": "103",
+      "ontology_id": "wsm_mediapipe_103_six_class_v1",
+      "class_ids": [0, 1, 2, 3, 4, 5],
+      "class_names": ["background", "hair", "body-skin", "face-skin", "clothes", "others-accessories"],
+      "metrics": ["mean_iou", "per_class_iou", "pixel_accuracy", "mean_class_accuracy", "macro_f1", "boundary_f1"],
+      "note": "AVIS test is a held-out split with same-frame RGB and exact MediaPipe-103 GT alignment. External human-parsing labels may be used only after freezing an auditable mapping into the six classes; unmappable labels are ignored, never guessed. Report WSM as held-out test inference unless training provenance proves the entire AVIS dataset was unseen; official external baselines are zero-shot on AVIS."
+    },
+    "any_to_any": {
+      "primary": "24 sealed cross-modal pairs covering RGB/edge/normal/depth conversions",
+      "supplement": "NYUv2 or equivalent paired subset, 24 fixed images, contamination risk",
+      "metrics": ["edge_overlap", "normal_angular_error", "depth_absrel", "depth_delta1"]
+    },
+    "depth_estimation": {
+      "primary": "24 sealed post-cutoff RGB/depth pairs with metric or affine-invariant depth",
+      "supplement": "Marigold official evaluation mirror (NYUv2/KITTI/ETH3D/DIODE), 24 fixed images",
+      "metrics": ["absrel", "sqrel", "rmse", "log_rmse", "delta1", "delta2", "delta3"]
+    }
+  },
+  "fairness": {
+    "same_samples_for_every_method": true,
+    "reported_only_numbers_separate": true,
+    "possible_pretraining_overlap_disclosed": true,
+    "no_training_or_debug_sample_may_enter_primary_suite": true
+  }
+}

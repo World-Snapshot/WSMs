@@ -1,0 +1,23 @@
+# Publish only the static project page and the task-graph configurations it
+# links to. The research code remains available from GitHub, but it is not part
+# of the GitHub Pages artifact.
+exclude:
+  - .github
+  - WSM_v1/env
+  - WSM_v1/manual_processing
+  - WSM_v1/models
+  - WSM_v1/scripts
+  - WSM_v1/src
+  - WSM_v1/third_party
+  - WSM_v1/webui
+  - WSM_v1/wsg_reader
+  - WSM_v1/__init__.py
+  - src
+  - dist
+  - __pycache__
+  - .pytest_cache
+  - Contributing.md
+  - LICENSE
+  - PYPI_README.md
+  - README.md
+  - pyproject.toml

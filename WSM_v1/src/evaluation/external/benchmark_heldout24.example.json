@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "benchmark_name": "wsm_external_heldout24",
+  "workspace": "../../evaluation_output/external/wsm_external_heldout24",
+  "hf_home": "../../evaluation_output/external/_shared_hf_cache",
+  "samples_per_task": 24,
+  "selection_policy": {
+    "same_samples_for_every_method": true,
+    "freeze_before_inference": true,
+    "prefer_created_after_foundation_pretraining": true,
+    "exclude_wsm_training_data": true,
+    "strata_required": [
+      "indoor_outdoor",
+      "human_nonhuman",
+      "texture_complexity",
+      "condition_sparsity"
+    ],
+    "primary_suite": "sealed post-cutoff real captures plus new private renders",
+    "legacy_benchmarks": "supplementary contamination-risk sanity checks"
+  },
+  "datasets": [
+    {
+      "id": "external_manifest",
+      "enabled": true,
+      "manifest": "REPLACE_WITH_CANDIDATE_OR_FROZEN_MANIFEST.jsonl",
+      "auto_select": true,
+      "created_after": "2026-01-01",
+      "sealed_before_evaluation": true
+    },
+    {
+      "id": "coco_val2017",
+      "enabled": false,
+      "license_accepted": false,
+      "max_samples": 24,
+      "contamination_risk": "high"
+    },
+    {
+      "id": "marigold_depth_eval",
+      "enabled": false,
+      "license_accepted": false,
+      "contamination_risk": "medium_to_high"
+    },
+    {
+      "id": "cityscapes",
+      "enabled": false,
+      "license_accepted": false,
+      "data_root": "REPLACE_WITH_CITYSCAPES_ROOT",
+      "max_samples": 24,
+      "contamination_risk": "high"
+    }
+  ],
+  "methods": [
+    {
+      "id": "wsm",
+      "enabled": false,
+      "inference_regime": "held_out_test",
+      "checkpoint": "REPLACE_WITH_WSM_CHECKPOINT.safetensors",
+      "tasks": [
+        "conditional_rgb",
+        "semantic_estimation",
+        "any_to_any",
+        "depth_estimation"
+      ],
+      "inference": {
+        "command": []
+      }
+    },
+    {"id": "controlnet", "enabled": false},
+    {"id": "controlnet_ip_adapter", "enabled": false},
+    {"id": "t2i_adapter", "enabled": false},
+    {"id": "marigold", "enabled": false},
+    {"id": "scaling_diffusion_perception", "enabled": false},
+    {"id": "modus", "enabled": false},
+    {
+      "id": "ominicontrol",
+      "enabled": false,
+      "excluded_from_benchmark": true,
+      "exclusion_reason": "Excluded by the project benchmark protocol."
+    },
+    {"id": "unicontrol", "enabled": false},
+    {"id": "uni_controlnet", "enabled": false},
+    {"id": "dmp", "enabled": false},
+    {"id": "geowizard", "enabled": false},
+    {"id": "vggt", "enabled": false},
+    {"id": "sensenova_vision", "enabled": false},
+    {
+      "id": "schp_lip",
+      "enabled": false,
+      "tasks": ["semantic_estimation"]
+    }
+  ],
+  "task_protocols": {
+    "conditional_rgb": {
+      "edge_detector": "canny",
+      "canny_low": 100,
+      "canny_high": 200,
+      "edge_threshold": 0.5,
+      "compute_fid": false,
+      "compute_clip": false,
+      "note": "FID is disabled because n=24 is statistically unsuitable."
+    },
+    "semantic_estimation": {
+      "ontology_id": "wsm_mediapipe_103_six_class_v1",
+      "shared_class_ids": [0, 1, 2, 3, 4, 5],
+      "class_names": [
+        "background",
+        "hair",
+        "body-skin",
+        "face-skin",
+        "clothes",
+        "others-accessories"
+      ],
+      "class_palette_rgb": [
+        [0, 0, 0],
+        [0, 0, 255],
+        [0, 255, 0],
+        [255, 0, 0],
+        [0, 255, 255],
+        [255, 0, 255]
+      ],
+      "ignore_id": 255
+    },
+    "any_to_any": {
+      "edge_threshold": 0.5,
+      "depth_alignment": "scale_shift",
+      "normal_encoding": "rgb_01",
+      "normal_channel_ranges": [
+        [-1.2443599700927734, 1.1317600011825562],
+        [-1.3442360162734985, 1.3391599655151367],
+        [-1.4413199424743652, 1.495519995689392]
+      ],
+      "shared_class_ids": []
+    },
+    "depth_estimation": {
+      "depth_alignment": "scale_shift",
+      "min_depth": 0.001,
+      "max_depth": 80.0,
+      "normalization_low_percentile": 2.0,
+      "normalization_high_percentile": 98.0
+    }
+  },
+  "fairness": {
+    "retain_official_vae_tokenizer_backbone": true,
+    "strict_task_sample_coverage": true,
+    "reported_only_numbers_in_separate_table": true,
+    "disclose_possible_pretraining_overlap": true
+  }
+}

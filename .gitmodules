@@ -1,0 +1,7 @@
+[submodule "env"]
+	path = WSM_v1/env
+	url = git@github.com:World-Snapshot/env.git
+[submodule "wsg_reader"]
+	path = WSM_v1/wsg_reader
+	url = git@github.com:World-Snapshot/wsg_reader.git
+	branch = main

@@ -1,0 +1,24 @@
+experiment_name: "flux2_precompute_avis_val"
+
+dataset:
+  name: "WSGModalityDataset"
+  params:
+    dataset_paths:
+      - "../../wsg/output/AVIS_val_results"
+    normalization_dataset_paths:
+      - "../../wsg/output/AVIS_train_results"
+    modality_config_path: "configs/wsg_v1_modalities_dense.json"
+    normalization_cache_path: "configs/wsg_dataset_info.json"
+    normalization_mode: "linear"
+    normalization_show_progress: true
+    data_type: "wsv"
+    patch_hw: 480
+    num_frames: 21
+    video_window_stride: 16
+    include_conditions: true
+    augment: false
+
+model:
+  name: "TunnelingNet_Flux2_4B"
+  params:
+    flux_model_path: "models/black-forest-labs/FLUX.2-klein-4B"

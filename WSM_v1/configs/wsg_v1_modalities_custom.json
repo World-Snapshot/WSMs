@@ -1,0 +1,120 @@
+{
+  "__config_notes__": [
+    "Persistent extension graph for user-defined WSM modalities and tasks.",
+    "String modality identifiers are first-class node names; they do not need to occupy WSG numeric channels.",
+    "The custom graph has its own train_log_custom namespace, so its Channel Head indices start from zero.",
+    "Each validated custom Head stores its deployment choice directly in recommended_checkpoint; no separate recommendation registry is required."
+  ],
+  "normalization": {
+    "default_mode": "log",
+    "modalities": {
+      "0-2": "linear",
+      "3": "linear",
+      "3-5": "linear",
+      "6-8": "linear",
+      "Universal_Pose": "linear",
+      "LayerDiffuse_Transparency": "linear",
+      "ICLight_Lighting": "linear",
+      "ICLight_Relighted_RGB": "linear"
+    }
+  },
+  "modality_specs": {
+    "Universal_Pose": {
+      "storage": "image_like",
+      "channels": 3,
+      "layout": "HWC",
+      "value_range": [
+        0.0,
+        255.0
+      ],
+      "encoding": "rgb_0_255_to_minus1_1",
+      "description": "Category-independent articulated skeleton visualization on a black background"
+    },
+    "LayerDiffuse_Transparency": {
+      "storage": "image_like",
+      "channels": 3,
+      "layout": "HWC",
+      "value_range": [
+        0.0,
+        255.0
+      ],
+      "encoding": "rgb_0_255_to_minus1_1",
+      "description": "RGB-replicated alpha/transparency estimate for a foreground or transparent layer"
+    },
+    "ICLight_Lighting": {
+      "storage": "image_like",
+      "channels": 3,
+      "layout": "HWC",
+      "value_range": [
+        0.0,
+        255.0
+      ],
+      "encoding": "rgb_0_255_to_minus1_1",
+      "description": "Three-channel target-light condition, such as an environment or illumination map"
+    },
+    "ICLight_Relighted_RGB": {
+      "storage": "image_like",
+      "channels": 3,
+      "layout": "HWC",
+      "value_range": [
+        0.0,
+        255.0
+      ],
+      "encoding": "rgb_0_255_to_minus1_1",
+      "description": "RGB appearance under the target illumination"
+    }
+  },
+  "wsg_v1": {
+    "Channel_Head_000000": {
+      "task_type": "estimation_or_reconstruction",
+      "pair_exists": true,
+      "target_density": "dense",
+      "condition": "0-2",
+      "condition_description": "0-2: sample-aligned RGB image",
+      "target": "Universal_Pose",
+      "target_description": "Universal_Pose: category-independent articulated skeleton visualization on a black background",
+      "recommended_checkpoint": "train_log_custom/Channel_Head_000000/20260828_024500_mp100_instance_crop_gradient_v1/ckpt/0000940/pytorch_lora_weights.safetensors"
+    },
+    "Channel_Head_000001": {
+      "task_type": "estimation_or_reconstruction",
+      "pair_exists": true,
+      "target_density": "dense",
+      "condition": "0-2",
+      "condition_description": "0-2: RGB image",
+      "target": "LayerDiffuse_Transparency",
+      "target_description": "LayerDiffuse_Transparency: soft alpha/transparency estimate for the RGB foreground (self-describing named modality, not a WSG numeric channel)",
+      "dataset_plan": {
+        "name": "magick_transparency_v1",
+        "sources": [
+          "MAGICK"
+        ],
+        "max_samples": 4381,
+        "purpose": "MAGICK RGBA soft-alpha estimation pilot"
+      },
+      "recommended_checkpoint": "train_log_custom/Channel_Head_000001/20260919_133835_magick_named_v1/ckpt/final_step_0001000/pytorch_lora_weights.safetensors"
+    },
+    "Channel_Head_000002": {
+      "task_type": "inverse_rendering",
+      "pair_exists": true,
+      "target_density": "dense",
+      "condition": [
+        "ICLight_Lighting",
+        "0-2"
+      ],
+      "condition_description": "ICLight_Lighting: IBL light-probe condition carrying full per-sample lighting (direction + HDRI environment + point-light highlight) | 0-2: source RGB appearance used as the per-sample reference via the tolerant current-frame fallback (target != 0-2, so this is leakage-free). No caption: like the official inverse_rendering heads (cond=['3','0-2']), relighting is a low-level re-render driven by the probe + RGB reference; object identity/geometry come from the 0-2 reference, lighting from the probe, so text is redundant.",
+      "target": "ICLight_Relighted_RGB",
+      "target_description": "ICLight_Relighted_RGB: RGB appearance under the target illumination (self-describing named modality, not a WSG numeric channel)",
+      "dataset_plan": {
+        "name": "relighting_pilot_v1",
+        "sources": [
+          "HumanOLAT",
+          "VIDIT"
+        ],
+        "max_samples": 1000,
+        "purpose": "IC-Light-style image relighting / re-rendering pilot"
+      },
+      "task_family": "rerendering",
+      "recommended_checkpoint": "train_log_custom/Channel_Head_000002/20260920_131157_iclight_ibl_v2_intensity_40k_lowviz/ckpt/0002800/pytorch_lora_weights.safetensors"
+    }
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "updated": "2026-09-03",
+  "datasets": {
+    "coco_val2017": {
+      "display_name": "COCO 2017 validation",
+      "tasks": ["conditional_rgb"],
+      "source": "https://cocodataset.org/#download",
+      "license_ack": "coco_terms",
+      "artifacts": [
+        {
+          "url": "https://images.cocodataset.org/zips/val2017.zip",
+          "filename": "val2017.zip",
+          "extract": true
+        }
+      ],
+      "builder": "coco_edge"
+    },
+    "marigold_depth_eval": {
+      "display_name": "Marigold official depth evaluation mirror",
+      "tasks": ["depth_estimation"],
+      "source": "https://github.com/prs-eth/Marigold",
+      "license_ack": "benchmark_dataset_terms",
+      "recursive_url": "https://share.phys.ethz.ch/~pf/bingkedata/marigold/evaluation_dataset/",
+      "builder": "paired_globs",
+      "note": "The mirror contains NYUv2, KITTI, ETH3D, DIODE and ScanNet archives. Configure paired_globs after selecting and extracting a dataset."
+    },
+    "cityscapes": {
+      "display_name": "Cityscapes validation",
+      "tasks": ["semantic_estimation"],
+      "source": "https://www.cityscapes-dataset.com/downloads/",
+      "license_ack": "cityscapes_terms",
+      "manual_required": [
+        "leftImg8bit/val",
+        "gtFine/val"
+      ],
+      "builder": "cityscapes",
+      "note": "Login and acceptance of the Cityscapes license are required; the runner never bypasses this gate."
+    },
+    "external_manifest": {
+      "display_name": "User-provided frozen held-out manifest",
+      "tasks": [
+        "conditional_rgb",
+        "semantic_estimation",
+        "any_to_any",
+        "depth_estimation"
+      ],
+      "builder": "existing_manifest"
+    }
+  },
+  "methods": {
+    "wsm": {
+      "display_name": "WSM",
+      "tasks": [
+        "conditional_rgb",
+        "semantic_estimation",
+        "any_to_any",
+        "depth_estimation"
+      ],
+      "inference_regime": "held_out_test",
+      "automation": "custom_command",
+      "note": "Set inference.command in the experiment config to the selected WSM checkpoint and native batch inference entry point."
+    },
+    "controlnet": {
+      "display_name": "ControlNet 1.1",
+      "tasks": ["conditional_rgb"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/lllyasviel/ControlNet-v1-1-nightly.git",
+      "revision": "e2b44154b72965c5e11b1ccee941d550682e4701",
+      "hf_models": [
+        "lllyasviel/control_v11p_sd15_canny",
+        "stable-diffusion-v1-5/stable-diffusion-v1-5"
+      ],
+      "environment": {
+        "python": "3.10",
+        "requirements": [
+          "torch",
+          "torchvision",
+          "diffusers>=0.31",
+          "transformers",
+          "accelerate",
+          "safetensors",
+          "opencv-python",
+          "Pillow"
+        ]
+      },
+      "adapter": "diffusers",
+      "adapter_method": "controlnet"
+    },
+    "controlnet_ip_adapter": {
+      "display_name": "ControlNet 1.1 + IP-Adapter",
+      "tasks": ["conditional_rgb"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/tencent-ailab/IP-Adapter.git",
+      "revision": "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2",
+      "hf_models": [
+        "lllyasviel/control_v11p_sd15_canny",
+        "stable-diffusion-v1-5/stable-diffusion-v1-5",
+        "h94/IP-Adapter"
+      ],
+      "environment": {
+        "python": "3.10",
+        "requirements": [
+          "torch", "torchvision", "diffusers>=0.31", "transformers",
+          "accelerate", "safetensors", "opencv-python", "Pillow"
+        ]
+      },
+      "adapter": "diffusers",
+      "adapter_method": "controlnet_ip_adapter"
+    },
+    "t2i_adapter": {
+      "display_name": "T2I-Adapter SDXL",
+      "tasks": ["conditional_rgb"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/TencentARC/T2I-Adapter.git",
+      "revision": "c408b059c36e3f9ce336b66746bd606edaa5483a",
+      "hf_models": [
+        "TencentARC/t2i-adapter-canny-sdxl-1.0",
+        "stabilityai/stable-diffusion-xl-base-1.0",
+        "madebyollin/sdxl-vae-fp16-fix"
+      ],
+      "environment": {
+        "python": "3.10",
+        "requirements": [
+          "torch",
+          "torchvision",
+          "diffusers>=0.31",
+          "transformers",
+          "accelerate",
+          "safetensors",
+          "opencv-python",
+          "Pillow"
+        ]
+      },
+      "adapter": "diffusers",
+      "adapter_method": "t2i_adapter"
+    },
+    "marigold": {
+      "display_name": "Marigold Depth v1.1",
+      "tasks": ["depth_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/prs-eth/Marigold.git",
+      "revision": "ac915287aaa4e5fd5fe578322735c7c411a1f263",
+      "hf_models": ["prs-eth/marigold-depth-v1-1"],
+      "environment": {
+        "python": "3.10",
+        "requirements": [
+          "torch",
+          "torchvision",
+          "diffusers>=0.31",
+          "transformers",
+          "accelerate",
+          "safetensors",
+          "Pillow",
+          "numpy"
+        ]
+      },
+      "adapter": "diffusers",
+      "adapter_method": "marigold"
+    },
+    "scaling_diffusion_perception": {
+      "display_name": "Scaling Diffusion Perception",
+      "tasks": ["depth_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/scaling-diffusion-perception/scaling-diffusion-perception.git",
+      "revision": "cb9f2c72ec8828d437293e73126938362a7e4fba",
+      "hf_models": [
+        "zeeshanp/scaling_diffusion_perception",
+        "LanguageMachines/stable-diffusion-2-1-base"
+      ],
+      "environment": {
+        "python": "3.10",
+        "requirements_file": "requirements.txt"
+      },
+      "adapter": "scaling_diffusion_perception",
+      "adapter_method": "generalist_depth_moe",
+      "official_protocol": {
+        "model_type": "DiTMultiTaskMoE_uc",
+        "num_experts": 8,
+        "top_k": 2,
+        "denoising_steps": 25,
+        "ensemble_size": 3
+      },
+      "fairness_note": "The official Hypersim loader supplies a GT-validity mask as an auxiliary image. The AVIS rerun instead supplies an all-valid mask so no target-derived spatial information reaches the model."
+    },
+    "modus": {
+      "display_name": "MODUS",
+      "tasks": [
+        "any_to_any",
+        "depth_estimation"
+      ],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/EPFL-VILAB/Modus.git",
+      "revision": "7efe113bc6d5f7948bfe573ab516bba11ff0cfc1",
+      "hf_models": ["EPFL-VILAB/MODUS"],
+      "environment": {
+        "python": "3.11",
+        "requirements_file": "requirements.txt"
+      },
+      "adapter": "modus",
+      "adapter_method": "modus",
+      "official_example": "python infer.py --condition rgb --target depth checkpoint_path=models/modus input_image=image.png"
+    },
+    "ominicontrol": {
+      "display_name": "OminiControl",
+      "tasks": ["conditional_rgb"],
+      "inference_regime": "trained_on_ours",
+      "repo_url": "https://github.com/Yuanshi9815/OminiControl.git",
+      "revision": "65d929e390a3f785b11e71344de082bb58a2c527",
+      "hf_models": ["Yuanshi/OminiControl"],
+      "automation": "training_recipe_required",
+      "fairness_warning": "The released implementation uses FLUX.1 family checkpoints, not the exact FLUX.2 4B WSM backbone."
+    },
+    "unicontrol": {
+      "display_name": "UniControl",
+      "tasks": ["conditional_rgb"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/salesforce/UniControl.git",
+      "revision": "e84d8d2085f58c88c913631fe0320f82a701a174",
+      "automation": "official_cli_adapter_required"
+    },
+    "uni_controlnet": {
+      "display_name": "Uni-ControlNet",
+      "tasks": ["conditional_rgb"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/ShihaoZhaoZSH/Uni-ControlNet.git",
+      "revision": "4da003c334786c5c4edc1e369b724e0aa84f390a",
+      "automation": "official_cli_adapter_required"
+    },
+    "dmp": {
+      "display_name": "DMP",
+      "tasks": ["semantic_estimation", "depth_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/shinying/dmp.git",
+      "revision": "69b4b18e4d55a1167d75a316d5eace9e5dbf43c4",
+      "automation": "manual_checkpoint_or_command",
+      "official_example": "python infer.py --src INPUT --lora-ckpt CHECKPOINT --output OUTPUT --config config.yaml"
+    },
+    "geowizard": {
+      "display_name": "GeoWizard",
+      "tasks": ["depth_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/fuxiao0719/GeoWizard.git",
+      "revision": "deee629b10baf944452a99a393ac818fbec86363",
+      "automation": "official_cli_adapter_required"
+    },
+    "vggt": {
+      "display_name": "VGGT",
+      "tasks": ["depth_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/facebookresearch/vggt.git",
+      "revision": "a288dd0f14786c93483e45524328726ab7b1b4ce",
+      "hf_models": ["facebook/VGGT-1B"],
+      "adapter": "vggt",
+      "adapter_method": "vggt_depth",
+      "fairness_warning": "The official project states that it did not quantitatively test monocular depth itself."
+    },
+    "sensenova_vision": {
+      "display_name": "SenseNova-Vision",
+      "tasks": ["semantic_estimation", "depth_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/OpenSenseNova/SenseNova-Vision.git",
+      "revision": "884d5151c101dda8e46ff728756f1c74e796c35c",
+      "automation": "official_benchmark_cli",
+      "resource_warning": "The full official benchmark recipe may require multiple 80GB GPUs."
+    },
+    "schp_lip": {
+      "display_name": "SCHP-LIP",
+      "tasks": ["semantic_estimation"],
+      "inference_regime": "zero_shot_official",
+      "repo_url": "https://github.com/GoGoDuck912/Self-Correction-Human-Parsing.git",
+      "revision": "eb84c432cc697f494d99662a05f2335eb2f26095",
+      "hf_models": ["pirocheto/schp-lip-20"],
+      "automation": "custom_command",
+      "fairness_note": "The original SCHP LIP-20 checkpoint is deterministically merged into the frozen channel-103 six-class ontology."
+    },
+    "semflow": {
+      "display_name": "SemFlow",
+      "tasks": ["semantic_estimation"],
+      "inference_regime": "zero_shot_official",
+      "automation": "unverified",
+      "disabled_reason": "The exact official repository/paper identity has not been verified; supply an official URL before enabling."
+    },
+    "qwen_image_edit_reported": {
+      "display_name": "Qwen-Image-Edit (paper-reported)",
+      "tasks": ["semantic_estimation", "depth_estimation"],
+      "inference_regime": "reported_only",
+      "automation": "reported_only"
+    },
+    "firered_image_edit_reported": {
+      "display_name": "FireRed-Image-Edit (paper-reported)",
+      "tasks": ["semantic_estimation", "depth_estimation"],
+      "inference_regime": "reported_only",
+      "automation": "reported_only"
+    },
+    "longcat_image_edit_reported": {
+      "display_name": "LongCat-Image-Edit (paper-reported)",
+      "tasks": ["semantic_estimation", "depth_estimation"],
+      "inference_regime": "reported_only",
+      "automation": "reported_only"
+    }
+  }
+}

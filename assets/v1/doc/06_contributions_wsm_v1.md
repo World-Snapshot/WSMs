@@ -1,0 +1,13 @@
+## Contributions
+
+**How to contribute to this project:** Overall, it is like Minecraft or Terraria—it is forward-compatible and game-mod-style. We strive to make it easy for everyone to contribute, even without beginning with a Pull Request. Of course, we also fully welcome submissions. Each repository includes a `Contributing.md` file with more details about its contribution workflow.
+
+**Join us:** If you have an in-depth collaboration or sponsorship proposal, please check the [project Q&As](https://world-snapshot.github.io/doc/index.html?page=S6_materials/04_questions.md#how-to-cooperate). If you wish to pursue long-term research cooperation and development with World Snapshot, including paper publication, please join our [research Slack](https://join.slack.com/t/senfanglab/shared_invite/zt-3e9y3e85d-jQu5Jt7UDYyEDfkuGCdJWA). Important contributions may be adapted and incorporated into the next generation of the project and paper. General discussion can also take place through [ControlWorld issues](https://github.com/World-Snapshot/ControlWorld/issues).
+
+**New models:** If you develop a new model, submit it as a new directory in the repository root—for example, `WSM_v1_new_model`—and give it your own name. We can help introduce and promote it in the README.
+
+**Initial team:** SF provided the majority of the initial ideas, wrote most of the early documents, and designed and completed the framework across multiple models and repositories. Professors DM and CC provided various forms of resources, and the current preprint author list records the broader team contributions. Thanks to modern LLM tools, work once expected to require five years in the pre-LLM era was accelerated substantially; of course, [the road ahead](https://world-snapshot.github.io/doc/index.html?page=S6_materials/04_questions.md#future-work-full-roadmap) remains very long.
+
+**Issues and Pull Requests:** For regular bugs or suggestions, submit an [Issue](https://github.com/World-Snapshot/WSMs/issues) or Pull Request and work with the authors and community to resolve it. Once we see your message or contribution, we will try to respond within 36 hours.
+
+**Related work:** Apart from expressing our deep gratitude to the [previous resources](https://github.com/World-Snapshot/wsg) on which the project builds, many aspects of prior work remain worth learning from and form the foundation of WSMs.

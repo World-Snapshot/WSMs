@@ -1,0 +1,22 @@
+experiment_name: "wsm_v1_augustus_precompute_avis_train"
+
+dataset:
+  name: "WSGModalityDataset"
+  params:
+    dataset_paths:
+      - "../../wsg/output/AVIS_train_results"
+    modality_config_path: "configs/wsg_v1_modalities_small.json"
+    normalization_cache_path: "configs/wsg_dataset_info.json"
+    normalization_mode: "linear"
+    normalization_show_progress: true
+    data_type: "wsv"
+    patch_hw: 480
+    num_frames: 21
+    video_window_stride: 16
+    include_conditions: true
+    augment: false
+
+model:
+  name: "WSM_v1"
+  params:
+    model_paths: '["models/Wan-AI/Wan2.1-T2V-14B/models_t5_umt5-xxl-enc-bf16.pth","models/Wan-AI/Wan2.1-T2V-14B/Wan2.1_VAE.pth"]'

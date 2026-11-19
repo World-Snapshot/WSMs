@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# PyTorch
+*.pth
+*.pt
+best_model*.pth
+final_model.pth
+
+# Logs and outputs
+logs/
+*.log
+core_space/
+outputs/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environment
+.env
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files and editor backups
+*.tmp
+*.bak
+*.orig
+.nfs*
+
+# WSM v1 data, models, training, evaluation, and local workspaces
+data/
+models/
+checkpoints/
+debug/
+paper/
+train_log
+train_log_note
+train_log_custom
+train_log_sparse
+旧*train_log*/
+src/evaluation_output*/
+# Resolved local benchmark state. Public counterparts use *.example.json and recipes/.
+src/evaluation/external/benchmark_heldout24.json
+src/evaluation/external/launch_crop_aligned_depth_rerun.sh
+*.zip
+
+# ScoreHMR local assets
+third_party/ScoreHMR/.git/
+third_party/ScoreHMR/__pycache__/
+third_party/ScoreHMR/**/__pycache__/
+third_party/ScoreHMR/data.zip
+third_party/ScoreHMR/assets/
+third_party/ScoreHMR/cache/
+third_party/ScoreHMR/example_data/
+third_party/ScoreHMR/logs/
+third_party/ScoreHMR/data/model_weights/
+third_party/ScoreHMR/data/smpl/
+third_party/ScoreHMR/data/datasets/wsv_*.npz
+third_party/ScoreHMR/data/datasets/*debug*.npz

@@ -1,0 +1,128 @@
+experiment_name: "wsm_v1_augustus_train_latent_1_3b"
+seed: 20260516
+
+trainer_name: "Trainer"
+trainer_config:
+  num_epochs: 100
+  max_steps: 10000
+  gradient_accumulation_steps: 1
+  logger_type: "tensorboard"
+
+dataset:
+  name: "WSGLatentDataset"
+  params:
+    latent_cache_dir: "data/wsg_vae_latents_avis_train"
+    modality_config_path: "configs/wsg_v1_modalities_small.json"
+    include_conditions: true
+
+val_dataset:
+  name: "WSGLatentDataset"
+  params:
+    latent_cache_dir: "data/wsg_vae_latents_avis_val"
+    modality_config_path: "configs/wsg_v1_modalities_small.json"
+    include_conditions: true
+
+test_dataset:
+  name: "WSGLatentDataset"
+  params:
+    latent_cache_dir: "data/wsg_vae_latents_avis_test"
+    modality_config_path: "configs/wsg_v1_modalities_small.json"
+    include_conditions: true
+
+dataloader:
+  batch_size: 1
+  shuffle: true
+  drop_last: true
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+
+val_dataloader:
+  batch_size: 1
+  shuffle: false
+  drop_last: false
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+
+model:
+  name: "WSM_v1"
+  params:
+    model_paths: '["models/Wan-AI/Wan2.1-T2V-14B/models_t5_umt5-xxl-enc-bf16.pth","models/Wan-AI/Wan2.1-T2V-14B/Wan2.1_VAE.pth"]'
+    dit_config_path: "configs/wan2_1_1_3b_t2v_dit_config.json"
+    dit_checkpoint_paths: '["models/xilanhua12138/Wan2.1-T2V-1.3B-Reward/transformer/diffusion_pytorch_model.safetensors"]'
+    modality_config_path: "configs/wsg_v1_modalities_small.json"
+    training_targets: ["40"]
+    condition_sampling: "single_balanced"
+    # sample_one keeps one target lane plus one condition lane per step while sharing the same LoRA.
+    # native_multilane is closer to UniVidX joint multi-lane generation, but many targets can OOM.
+    # fused_conditions generates one target lane per pass while a trainable, modality-tagged fuser
+    # compresses all configured condition lanes into one lane.
+    # merged_lane_big_token merges all target lanes along latent channels, expands only DiT IO,
+    # and keeps the transformer sequence length unchanged.
+    # It is intended for multi-lane targets or jointly-used multi-lane conditions; it does not
+    # apply condition_sampling, so alternative single-condition training should use sample_one.
+    wsg_multitarget_strategy: "sample_one"
+    wsg_big_token_latent_channels: 16
+    wsg_big_token_init_scale: "sqrt"
+    wsg_big_token_use_slot_modality_markers: true
+    wsg_big_token_modality_buckets: 512
+    wsg_big_token_modality_embedding_dim: 512
+    wsg_condition_fuser_latent_channels: 16
+    wsg_condition_fuser_hidden_dim: 2048
+    wsg_condition_fuser_modality_buckets: 512
+    wsg_condition_fuser_modality_embedding_dim: 512
+    # Sparse codec modes:
+    # - dwpose_semantic_heatmap: one RGB heatmap stores person/keypoint ids as semantic colors.
+    # - dwpose_body_partition_heatmap: person-group pseudo lanes, e.g. person0/body, person0/face,
+    #   person0/left_hand, person0/right_hand; reduces cross-person tangling but still
+    #   decodes local keypoint ids from lane colors.
+    # - dwpose_person_keypoint_pack3_heatmap: one slot per (person, keypoint), packed 3 slots/RGB.
+    wsg_sparse_codec_mode: "dwpose_body_partition_heatmap"
+    wsg_sparse_heatmap_sigma: 3.0
+    wsg_sparse_heatmap_radius: 8
+    wsg_sparse_heatmap_peak_threshold: 0.10
+    wsg_sparse_heatmap_nms_radius: 6
+    lora_base_model: "dit"
+    lora_target_modules: "self_attn.q,self_attn.k,self_attn.v,self_attn.o,ffn.0,ffn.2"
+    lora_rank: 16
+
+optimizer:
+  name: "AdamW"
+  params:
+    lr: 1e-4
+    weight_decay: 0.01
+
+scheduler:
+  name: "CosineAnnealingLR"
+  params:
+    eta_min: 1e-6
+
+callbacks:
+  - name: "ModelCheckpointCallback"
+    params:
+      output_path: "outputs/wsm_v1_augustus_train_latent_1_3b"
+      remove_prefix_in_ckpt: "pipe.dit."
+  - name: "TensorboardLoggingCallback"
+    params:
+      logging_dir: "logs/wsm_v1_augustus_train_latent_1_3b"
+  - name: "WSGGenerationEvalCallback"
+    params:
+      output_dir: "train_log"
+      eval_every_steps: 200
+      stats_every_steps: 10
+      # Full WSG visualization is expensive for sparse big-token targets.
+      # Keep one representative frame by default; launch scripts can override it.
+      wsg_visualization_frames: 1
+      val_loss_batches: 1
+      num_samples: 1
+      # Eval sample choices:
+      #   0 = original airplane-like validation sample.
+      #   3 = multi-person validation sample (AVIS_val_results/00000105). Default for lora010 human checks.
+      sample_start_index: 3
+      num_inference_steps: 20
+      seed: 0
+      dataset_paths:
+        - "../../wsg/output/AVIS_train_results"
+      normalization_cache_path: "configs/wsg_dataset_info.json"
+      normalization_mode: "linear"

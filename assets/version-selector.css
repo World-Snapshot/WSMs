@@ -1,0 +1,127 @@
+/* Shared project-page version selector. */
+.version-switcher {
+    position: relative;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.version-switcher::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100px;
+    height: 5px;
+    z-index: 999;
+}
+
+.version-button {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: 6px;
+    min-width: 100px;
+    height: 22px;
+    padding: 0 6px;
+    color: #202122;
+    background: #fff;
+    border: 1px solid #a2a9b1;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.version-label {
+    color: #54595d;
+    font-weight: 400;
+    text-align: left;
+}
+
+.version-caret {
+    color: #72777d;
+    font-size: 11px;
+}
+
+.version-button:hover,
+.version-switcher:hover .version-button {
+    background: #f8f9fa;
+    border-color: #72777d;
+}
+
+.version-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100px;
+    min-width: 100px;
+    margin-top: 4px;
+    padding: 5px 0;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #a2a9b1;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.10);
+    z-index: 1000;
+}
+
+.version-switcher:hover .version-menu,
+.version-switcher:focus-within .version-menu {
+    display: block;
+}
+
+.version-menu .version-option {
+    display: block;
+    padding: 6px 10px;
+    color: #202122;
+    font-size: 14px;
+    line-height: 1.35;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.version-menu .version-option strong {
+    display: inline-block;
+    min-width: 24px;
+}
+
+.version-menu .version-option span {
+    color: #72777d;
+    font-size: 12px;
+}
+
+.version-menu .version-option.active {
+    background: #f1f4f8;
+    box-shadow: inset 3px 0 #3366cc;
+}
+
+.version-menu .version-option:hover {
+    background: #eaecf0;
+}
+
+.project-archive-notice {
+    margin: 0 auto 18px;
+    padding: 12px 15px;
+    max-width: 900px;
+    color: #202122;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #a2a9b1;
+    border-left: 3px solid #3366cc;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.project-archive-notice strong {
+    margin-right: 5px;
+}
+
+.project-archive-notice a {
+    color: #3366cc;
+    font-weight: 600;
+}

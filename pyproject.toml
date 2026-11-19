@@ -1,0 +1,213 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wsm"
+version = "0.1.0"
+description = "World Snapshot Models pipelines for unified visual generation, estimation, control, and reconstruction"
+readme = "PYPI_README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [
+  {name = "World Snapshot"},
+  {name = "Sen Fang", email = "sen.fang@rutgers.edu"},
+]
+keywords = [
+  "world snapshot model",
+  "tunnelingnet",
+  "diffusers",
+  "multimodal",
+  "computer vision",
+  "generative model",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "accelerate>=1.2.0",
+  "av>=13.0.0",
+  "diffusers>=0.40.0",
+  "einops>=0.8.0",
+  "huggingface-hub>=0.36.0",
+  "imageio[ffmpeg]>=2.36.0",
+  "lightning[pytorch-extra]>=2.1,<2.6",
+  "matplotlib>=3.9.3",
+  "numba>=0.60.0",
+  "numpy>=1.26.4,<3",
+  "opencv-python-headless>=4.10.0",
+  "optimum-quanto>=0.2.6",
+  "packaging>=24.0",
+  "pandas>=2.2.3",
+  "peft>=0.18.0",
+  "Pillow>=10.0.0",
+  "plyfile>=1.1",
+  "pyrender>=0.1.45",
+  "PyYAML>=6.0",
+  "safetensors>=0.5.0",
+  "scikit-learn>=1.5.0",
+  "scipy>=1.14.0",
+  "sentencepiece>=0.2.0",
+  "SpeechRecognition>=3.10.0",
+  "sympy>=1.13.0",
+  "timm>=1.0.12",
+  "torch>=2.5.0",
+  "torchvision>=0.20.0",
+  "tqdm>=4.66.0",
+  "transformers>=5.0.0",
+  "trimesh>=4.5.0",
+]
+
+[project.optional-dependencies]
+audio = ["openai-whisper>=20240930"]
+webui = ["fastapi>=0.115", "gradio>=4", "open3d>=0.18", "plotly>=5", "uvicorn>=0.32", "viser>=0.2"]
+training = ["bitsandbytes>=0.45", "wandb>=0.19", "xformers>=0.0.29"]
+full = [
+  "bitsandbytes>=0.45",
+  "fastapi>=0.115",
+  "gradio>=4",
+  "mayavi>=4.8",
+  "open3d>=0.18",
+  "openai-whisper>=20240930",
+  "plotly>=5",
+  "uvicorn>=0.32",
+  "viser>=0.2",
+  "wandb>=0.19",
+  "xformers>=0.0.29",
+]
+dev = ["build>=1.2", "pytest>=8", "twine>=6"]
+
+[project.scripts]
+wsm = "wsm.cli:main"
+
+[project.urls]
+Homepage = "https://world-snapshot.github.io/"
+Documentation = "https://world-snapshot.github.io/doc/index.html"
+Repository = "https://github.com/World-Snapshot/WSMs"
+Paper = "https://github.com/FangSen9000/CVPR2027_WSM"
+Models = "https://huggingface.co/World-Snapshot/WSM_v1"
+Issues = "https://github.com/World-Snapshot/WSMs/issues"
+
+[tool.hatch.build]
+skip-excluded-dirs = true
+exclude = [
+  "**/__pycache__/**",
+  "**/*.pyc",
+  "**/*.orig",
+  "**/tools/**",
+  "**/test_*.py",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wsm"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py" = "wsm/_bundled/WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py"
+"WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py" = "wsm/_bundled/WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py"
+"WSM_v1/configs/wsg_v1_modalities_custom.json" = "wsm/_bundled/WSM_v1/configs/wsg_v1_modalities_custom.json"
+"WSM_v1/configs/wsg_v1_modalities_dense.json" = "wsm/_bundled/WSM_v1/configs/wsg_v1_modalities_dense.json"
+"WSM_v1/configs/wsg_v1_modalities_sparse.json" = "wsm/_bundled/WSM_v1/configs/wsg_v1_modalities_sparse.json"
+"WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json" = "wsm/_bundled/WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json"
+"WSM_v1/src/dataset" = "wsm/_bundled/WSM_v1/src/dataset"
+"WSM_v1/src/pipelines/categorical_refiner.py" = "wsm/_bundled/WSM_v1/src/pipelines/categorical_refiner.py"
+"WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py" = "wsm/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py"
+"WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py" = "wsm/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py"
+"WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py" = "wsm/_bundled/WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py"
+"WSM_v1/src/visualization" = "wsm/_bundled/WSM_v1/src/visualization"
+"WSM_v1/webui/__init__.py" = "wsm/_bundled/WSM_v1/webui/__init__.py"
+"WSM_v1/webui/input_validation.py" = "wsm/_bundled/WSM_v1/webui/input_validation.py"
+"WSM_v1/wsg_reader/categorical_visualization.py" = "wsm/_bundled/WSM_v1/wsg_reader/categorical_visualization.py"
+"WSM_v1/wsg_reader/normalized_wsg_loader.py" = "wsm/_bundled/WSM_v1/wsg_reader/normalized_wsg_loader.py"
+"WSM_v1/wsg_reader/configs/channel_visualization_palettes.json" = "wsm/_bundled/WSM_v1/wsg_reader/configs/channel_visualization_palettes.json"
+"WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json" = "wsm/_bundled/WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json"
+"WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json" = "wsm/_bundled/WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json"
+"WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json" = "wsm/_bundled/WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json"
+"WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py"
+"WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py" = "wsm/_bundled/WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py"
+"WSM_v1/wsg_reader/utils/binvox_relative.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/binvox_relative.py"
+"WSM_v1/wsg_reader/utils/binvox_utils.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/binvox_utils.py"
+"WSM_v1/wsg_reader/utils/blender_script.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/blender_script.py"
+"WSM_v1/wsg_reader/utils/blender_script_shapenet.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/blender_script_shapenet.py"
+"WSM_v1/wsg_reader/utils/draw_dw_lib.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/draw_dw_lib.py"
+"WSM_v1/wsg_reader/utils/optimized_processing.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/optimized_processing.py"
+"WSM_v1/wsg_reader/utils/preprocess_video.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/preprocess_video.py"
+"WSM_v1/wsg_reader/utils/util.py" = "wsm/_bundled/WSM_v1/wsg_reader/utils/util.py"
+"WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py" = "wsm/_bundled/WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py"
+"WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py" = "wsm/_bundled/WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py"
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+  "/LICENSE",
+  "/PYPI_README.md",
+  "/pyproject.toml",
+  "/src/examples/WSM_Quickstart.ipynb",
+  "/src/wsm",
+  "/WSM_v1/configs/wsg_v1_modalities_custom.json",
+  "/WSM_v1/configs/wsg_v1_modalities_dense.json",
+  "/WSM_v1/configs/wsg_v1_modalities_sparse.json",
+  "/WSM_v1/configs/wsm_v1_recommended_dense_channel_heads.json",
+  "/WSM_v1/scripts/train_TunnelingNet_Flux2_4B_wsg.py",
+  "/WSM_v1/scripts/infer_TunnelingNet_Flux2_4B_wsg.py",
+  "/WSM_v1/src/dataset",
+  "/WSM_v1/src/pipelines/categorical_refiner.py",
+  "/WSM_v1/src/pipelines/wsg_sparse_codecs/__init__.py",
+  "/WSM_v1/src/pipelines/wsg_sparse_codecs/dwpose_heatmap.py",
+  "/WSM_v1/src/pipelines/wsg_sparse_codecs/registry.py",
+  "/WSM_v1/src/visualization",
+  "/WSM_v1/webui/__init__.py",
+  "/WSM_v1/webui/input_validation.py",
+  "/WSM_v1/wsg_reader/categorical_visualization.py",
+  "/WSM_v1/wsg_reader/normalized_wsg_loader.py",
+  "/WSM_v1/wsg_reader/configs/channel_visualization_palettes.json",
+  "/WSM_v1/wsg_reader/tools/Objaverse/category_id_mapping.json",
+  "/WSM_v1/wsg_reader/tools/ShapeNet/category_id_mapping.json",
+  "/WSM_v1/wsg_reader/tools/ShapeNet/material_id_mapping.json",
+  "/WSM_v1/wsg_reader/pipeline01_read_dwpose_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline02_read_smplerx_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline03_read_mediapipe_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline04c_read_mediapipe_segmentation_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline05_read_primedepth_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline06_read_metricdepth_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline07_read_normals_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline08_read_curvature_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline09_read_edge_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline10_read_opticalflow_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline14_read_xpose_pose_visualization_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline15_read_object_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline16_read_psy_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline17_read_PBR_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline18_read_audio_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline19_read_caption_audio_from_wsg.py",
+  "/WSM_v1/wsg_reader/pipeline20_read_MMFi_from_wsg.py",
+  "/WSM_v1/wsg_reader/utils/binvox_relative.py",
+  "/WSM_v1/wsg_reader/utils/binvox_utils.py",
+  "/WSM_v1/wsg_reader/utils/blender_script.py",
+  "/WSM_v1/wsg_reader/utils/blender_script_shapenet.py",
+  "/WSM_v1/wsg_reader/utils/draw_dw_lib.py",
+  "/WSM_v1/wsg_reader/utils/optimized_processing.py",
+  "/WSM_v1/wsg_reader/utils/preprocess_video.py",
+  "/WSM_v1/wsg_reader/utils/util.py",
+  "/WSM_v1/third_party/ScoreHMR/wsm_adapters/build_wsv_audio_dataset.py",
+  "/WSM_v1/third_party/ScoreHMR/wsm_adapters/wsv_smpl_utils.py",
+]
