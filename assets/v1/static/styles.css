@@ -217,6 +217,9 @@ body {
     gap: 15px;
     margin: 5px 0;
     padding: 0;
+    width: min(90vw, 1500px);
+    margin-left: 50%;
+    transform: translateX(-50%);
     flex-wrap: wrap;
 }
 
