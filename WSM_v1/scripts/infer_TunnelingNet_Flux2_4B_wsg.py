@@ -841,7 +841,9 @@ def _validated_direct_inputs(
 
 
 def _build_direct_request(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
-    checkpoint = Path(args.checkpoint).expanduser().resolve()
+    # Preserve the logical Hub snapshot hierarchy: Hub checkpoint files are
+    # symlinks whose resolved targets live in the flat ``blobs/`` directory.
+    checkpoint = Path(args.checkpoint).expanduser().absolute()
     if not checkpoint.is_file():
         raise FileNotFoundError(checkpoint)
     resolved, runtime, _ = read_run_config(checkpoint)
@@ -1071,7 +1073,7 @@ class ChannelHeadInferenceSession:
 
 def run_base_rgb_inference(request: dict[str, Any], output_path: Path) -> dict[str, str]:
     """Run the unmodified FLUX.2 text-to-RGB stage of a composite route."""
-    checkpoint = Path(request["checkpoint"]).expanduser().resolve()
+    checkpoint = Path(request["checkpoint"]).expanduser().absolute()
     if not checkpoint.is_file():
         raise FileNotFoundError(checkpoint)
     resolved, runtime, _ = read_run_config(checkpoint)
@@ -1118,7 +1120,7 @@ def run_base_rgb_inference(request: dict[str, Any], output_path: Path) -> dict[s
 def run_channel_head_inference(
     request: dict[str, Any], output_path: Path,
 ) -> dict[str, str]:
-    checkpoint = Path(request["checkpoint"]).expanduser().resolve()
+    checkpoint = Path(request["checkpoint"]).expanduser().absolute()
     if not checkpoint.is_file():
         raise FileNotFoundError(checkpoint)
     session = ChannelHeadInferenceSession(
@@ -1162,7 +1164,7 @@ def _released_rgb_preprocessor(token: str) -> dict[str, Any]:
             or (entry.get("evaluated") or {}).get("checkpoint_relative")
             or ""
         )
-        checkpoint = (PROJECT_ROOT / relative).resolve() if relative else None
+        checkpoint = (PROJECT_ROOT / relative).absolute() if relative else None
         if checkpoint is not None and checkpoint.is_file():
             candidates.append({
                 "id": f"dense:Channel_Head_{index:06d}",
@@ -1249,7 +1251,7 @@ def run_text_to_modality_chain(
     request: dict[str, Any], output_path: Path,
 ) -> dict[str, str]:
     """Run Text → RGB → target as one canonical inference command."""
-    checkpoint = Path(request["checkpoint"]).expanduser().resolve()
+    checkpoint = Path(request["checkpoint"]).expanduser().absolute()
     resolved, runtime, _ = read_run_config(checkpoint)
     visual_inputs = [
         token for token in _condition_tokens(resolved, runtime) if token != "caption"

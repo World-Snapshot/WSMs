@@ -248,13 +248,14 @@ def _checkpoint(
 ) -> Checkpoint:
     parent_name = path.parent.name
     step = _step_from_checkpoint(path)
+    logical_run_dir = run_dir.expanduser().absolute()
     run_step, best_step, _best_loss, val_pairs = _run_checkpoint_quality(
-        str(run_dir.resolve())
+        str(logical_run_dir)
     )
     validation_by_step = dict(val_pairs)
     return Checkpoint(
-        path=path.resolve(),
-        run_dir=run_dir.resolve(),
+        path=path.expanduser().absolute(),
+        run_dir=logical_run_dir,
         step=step,
         run_step=max(run_step, step),
         validation_loss=validation_by_step.get(step),
@@ -359,7 +360,10 @@ def _checkpoint_modality_prompt(checkpoint: Path | None) -> str:
     """Read the exact automatic task-semantic prompt stored by training."""
     if checkpoint is None:
         return ""
-    current = checkpoint.resolve().parent
+    # Keep the logical Hugging Face snapshot path.  Checkpoint files in the Hub
+    # cache are symlinks into ``blobs/``; resolving one here discards the run
+    # directory that contains the associated runtime configuration.
+    current = checkpoint.expanduser().absolute().parent
     for _ in range(5):
         runtime_path = current / "resolved_runtime_config.json"
         if runtime_path.is_file():
@@ -391,7 +395,7 @@ def _configured_recommended_checkpoint(entry: dict[str, Any]) -> Path | None:
     checkpoint = Path(checkpoint_text).expanduser()
     if not checkpoint.is_absolute():
         checkpoint = PROJECT_ROOT / checkpoint
-    return checkpoint.resolve()
+    return checkpoint.absolute()
 
 
 @lru_cache(maxsize=1)
@@ -417,7 +421,7 @@ def _official_recommendations(
         checkpoint = Path(checkpoint_text)
         if not checkpoint.is_absolute():
             checkpoint = PROJECT_ROOT / checkpoint
-        checkpoint = checkpoint.resolve()
+        checkpoint = checkpoint.absolute()
         if checkpoint.is_file():
             preferred[key] = checkpoint
     return preferred, registry
@@ -444,7 +448,7 @@ def _dense_preferred_checkpoints() -> dict[int, Path]:
         [PROJECT_ROOT / "train_log"], selection_policy="canonical-coverage"
     )
     discovered = {
-        int(candidate.head_index): Path(candidate.checkpoint).resolve()
+        int(candidate.head_index): Path(candidate.checkpoint).expanduser().absolute()
         for candidate in candidates
     }
     discovered.update(preferred)
@@ -471,7 +475,8 @@ def _task_record(
     audio_selector_required = sparse_adapter == "rgb_to_semantic_mask_audio_region_selector"
     base_checkpoint_count = len(checkpoints)
     preferred_checkpoint = (
-        preferred_checkpoint.resolve() if preferred_checkpoint is not None else None
+        preferred_checkpoint.expanduser().absolute()
+        if preferred_checkpoint is not None else None
     )
     if preferred_checkpoint is not None:
         checkpoints = sorted(

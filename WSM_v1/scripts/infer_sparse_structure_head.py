@@ -393,7 +393,9 @@ def infer_audio_category(
 
 
 def run(request: dict[str, Any], output_path: Path) -> dict[str, Any]:
-    checkpoint = Path(str(request.get("checkpoint") or "")).resolve()
+    # Do not follow Hugging Face cache symlinks into ``blobs/``: sibling run
+    # assets are addressed through the logical snapshot hierarchy.
+    checkpoint = Path(str(request.get("checkpoint") or "")).expanduser().absolute()
     if not checkpoint.is_file():
         raise FileNotFoundError(f"Sparse checkpoint does not exist: {checkpoint}")
     adapter = str(request.get("adapter_task") or "")
