@@ -379,6 +379,12 @@ preprocessor is required.
 
 ## License
 
+**In short:** You may use and modify these materials for noncommercial
+research, development, and training. Commercial use requires separate
+permission from Rutgers; contact **compliance@research.rutgers.edu** and
+reference **Rutgers Docket #2027-020**. The [LICENSE](LICENSE) file contains
+the governing terms.
+
 WSMs is available under the Rutgers Non-commercial Research License (RU-NCRL)
 for academic, research, experimental, and personal noncommercial purposes.
 For commercial-use rights, contact **compliance@research.rutgers.edu** and
@@ -388,8 +394,6 @@ Any Rutgers-owned model artifacts distributed with this repository, including
 trained or fine-tuned weights, checkpoints, adapters, and `.pth` files, are
 covered by the same license. Third-party dependencies and model artifacts
 retain their respective licenses.
-
-See [LICENSE](LICENSE) for the complete terms.
 
 ---
 
