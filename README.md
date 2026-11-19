@@ -9,6 +9,7 @@
 [[Python Pipeline]](#inference) |
 [[Quickstart Notebook]](src/examples/WSM_Quickstart.ipynb) |
 [[WebUI]](https://github.com/World-Snapshot/ControlWorld) |
+[[Live Demo]](https://huggingface.co/spaces/FangSen9000/WSM-ControlWorld) |
 [[World Snapshot Graphics]](https://github.com/World-Snapshot/wsg) |
 [[Organization]](https://github.com/World-Snapshot)
 
