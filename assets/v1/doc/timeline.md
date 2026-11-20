@@ -58,6 +58,11 @@ Some historical commit evidence is retained in private, read-only repositories a
   - First record: https://github.com/World-Snapshot/doc/commit/bdec0dd943904c97c8d9d43c5ad7e2cf169aa362
   - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/04_laplace_demon.md
 
+- **2025 Jan 1:** Blog "Plato's Cave Allegory" added.
+  - Description: This essay uses Plato's cave as an early conceptual analogy for learning a world through observable projections, connecting image-space observations with the broader World Snapshot view of encoded world information.
+  - First record: https://github.com/World-Snapshot/doc/commit/9b8f8f7e30d40398d611cda0cbd14837333547a5
+  - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/08_plato_cave_allegory.md
+
 - **2025 Jan 3:** Blog "Time Flowing in Graphics" and "Relative be in All Things" completed.
   - Description: "Time Flowing in Graphics" adds temporal properties to graphics and treats time as part of the visual/world representation. "Relative be in All Things" frames relative learning as a foundation for embodied intelligence and world models, emphasizing that world understanding depends on relations learned from the world itself.
   - First record: https://github.com/World-Snapshot/doc/commit/4c4e860d0c2c523e99856dd0eda5fd25ec1e8f40
@@ -83,7 +88,7 @@ Some historical commit evidence is retained in private, read-only repositories a
 - **2025 Feb 7:** Guideline "Model Design Guideline Memo" completed.
   - Description: This memo records the model design path after the early WSG/WSV ideas: train the world itself, make data closer to world reality through WSG, use WaveGen and core-space ideas, and design a new model around temporal continuity and world-field generation.
   - First record: https://github.com/World-Snapshot/doc/commit/b0dfc14cc8f22ef63f1a932ef2812953dbc7115e
-  - Current link: https://world-snapshot.github.io/doc/index.html?page=S6_materials/02_guideline.md
+  - Current link: https://world-snapshot.github.io/doc/index.html?page=S6_materials/01_guideline.md
 
 - **2025 Mar 8:** WaveGen prototype uploaded.
   - Description: This records an early public implementation prototype for the wave-based generative route, before the later Wave2Pixel/WSM training line was separated more clearly.
@@ -309,3 +314,8 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Description: This entry records the latest synchronized WSMs update. It adds AVIS WSV/cache reindex repair tools, semantic alignment spot-check visualization, sparse training default updates, and cache repair utilities for channel 195 and related AVIS records.
   - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/a02d9d312f7563467afaed65e42e9df36197d24e
   - Current link: https://github.com/World-Snapshot/WSMs/tree/main/WSM_v1/manual_processing/flux2_preprocessing/cache
+
+- **2026 Nov 20:** The World Snapshot documentation and its nine historical essays were formally released as a public documentation collection.
+  - Description: The public documentation preserves the early conceptual record behind World Snapshot, including the nine essays written from December 2024 through January 2025, alongside standards, implementation guidance, and project materials.
+  - Release record: https://github.com/World-Snapshot/doc/commit/07c7d91b4c51541f99b86f05d429ee7123e43c61
+  - Current link: https://world-snapshot.github.io/doc/index.html
