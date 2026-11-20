@@ -24,7 +24,7 @@
             <a href="?page=news.md" class="header-link">[News]</a>
             <a href="?page=qa.md" class="header-link">[Q&amp;A]</a>
             <a href="?page=timeline.md" class="header-link">[Timeline]</a>
-            <a href="https://world-snapshot.github.io/doc/index.html" class="header-link">[Document]</a>
+            <a href="https://world-snapshot.github.io/doc/index.html" class="header-link" data-render-markdown="false">[Document]</a>
             <a href="https://github.com/World-Snapshot" class="header-link">[GitHub Org]</a>
             <a href="https://x.com/SenFang01" class="header-link">[Author X]</a>
             <!-- <div class="version-switcher">
@@ -134,7 +134,7 @@
             <a href="https://github.com/World-Snapshot/ControlWorld" class="button" target="_blank" rel="noopener noreferrer">
                 <i class="fas fa-sliders-h"></i> ControlWorld
             </a>
-            <a href="https://world-snapshot.github.io/doc/index.html" class="button" target="_blank" rel="noopener noreferrer">
+            <a href="https://world-snapshot.github.io/doc/index.html" class="button" target="_blank" rel="noopener noreferrer" data-render-markdown="false">
                 <i class="fas fa-book"></i> Document
             </a>
             <a href="https://huggingface.co/World-Snapshot/WSM_v1" class="button" target="_blank" rel="noopener noreferrer">
@@ -288,8 +288,25 @@
         // relative resources, URL state, anchors, caching, and hover prefetching.
         const markdownCache = new Map();
         let currentMarkdownPage = '';
+        let homeContentLoaded = false;
         const homeDocumentTitle = document.title;
         const markdownPageDirectory = 'assets/v1/doc/';
+        const externalNavigationPrefixes = [
+            'https://world-snapshot.github.io/doc/'
+        ];
+
+        // Add data-render-markdown="false" to any link that must leave this
+        // project page instead of being fetched into its Markdown viewer.
+        function skipsMarkdownRendering(link, href = link?.href) {
+            if (!link) return false;
+            if (link.getAttribute('data-render-markdown') === 'false') return true;
+            try {
+                const absoluteUrl = new URL(href, window.location.href).href;
+                return externalNavigationPrefixes.some(prefix => absoluteUrl.startsWith(prefix));
+            } catch (_) {
+                return false;
+            }
+        }
 
         function isRemoteMarkdownPage(page) {
             return /^https?:\/\//i.test(page);
@@ -428,6 +445,11 @@
             container.querySelectorAll('a[href]').forEach(link => {
                 const href = link.getAttribute('href');
                 if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('javascript:')) return;
+                if (skipsMarkdownRendering(link, href)) {
+                    link.setAttribute('data-render-markdown', 'false');
+                    link.href = new URL(href, sourceUrl).href;
+                    return;
+                }
                 const pathPart = href.split('#', 1)[0];
                 if (/\.md(?:$|\?)/i.test(pathPart)) {
                     const target = resolveMarkdownTarget(href, page);
@@ -545,10 +567,14 @@
             document.addEventListener('click', event => {
                 const link = event.target.closest('a[href]');
                 if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                if (skipsMarkdownRendering(link, link.getAttribute('href'))) return;
                 let parsed;
                 try { parsed = new URL(link.href, window.location.href); } catch (_) { return; }
 
                 if (link.matches('[data-page-home]') && parsed.origin === window.location.origin) {
+                    // A direct Markdown-page visit deliberately skips the hidden
+                    // homepage payload. Let the browser load ./ before showing it.
+                    if (!homeContentLoaded) return;
                     event.preventDefault();
                     renderHomePage(true, parsed.hash);
                     return;
@@ -576,6 +602,7 @@
             document.addEventListener('mouseover', event => {
                 const link = event.target.closest('a[href]');
                 if (!link || link.dataset.markdownPrefetched) return;
+                if (skipsMarkdownRendering(link, link.getAttribute('href'))) return;
                 let parsed;
                 try { parsed = new URL(link.href, window.location.href); } catch (_) { return; }
                 const page = normalizePublicMarkdownPage(parsed.searchParams.get('page'));
@@ -658,6 +685,7 @@
             const markdownPage = requestedMarkdownPage();
             if (markdownPage) {
                 await renderMarkdownPage(markdownPage);
+                return;
             }
             // Browsers block fetch() for local file:// pages. The sections above
             // provide the same active content so index.html remains directly openable.
@@ -690,6 +718,7 @@
 
             addHeaderLinks();
             executeMarkdownScripts();
+            homeContentLoaded = true;
 
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
