@@ -159,14 +159,6 @@ body {
     background: #eef2f5;
 }
 
-.timeline-entry-index {
-    display: inline-block;
-    margin-left: 0.35rem;
-    font-size: 0.82em;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
 [hidden] {
     display: none !important;
 }
