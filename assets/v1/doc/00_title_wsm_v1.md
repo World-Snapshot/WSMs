@@ -1,4 +1,4 @@
-<span class="highlight-notice">Small-scale academic project, only for proof of concept</span>
+<span class="highlight-notice">Academic project, only for proof of concept</span>
 
 <h1 class="title"><span class="translation-line">Unified Law for Visual Tasks</span> <span class="translation-line">(The Four Laws of Computer Vision)</span></h1>
 
