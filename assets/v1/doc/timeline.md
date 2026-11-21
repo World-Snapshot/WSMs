@@ -18,9 +18,35 @@ Some historical commit evidence is retained in private, read-only repositories a
     button.setAttribute('aria-expanded', String(!collapsed));
   }
 
+  function addPublicIndexes() {
+    viewer.querySelectorAll(':scope > ul > li').forEach(entry => {
+      if (entry.querySelector(':scope > p > .timeline-entry-index')) return;
+      const details = entry.querySelector(':scope > ul');
+      const summary = entry.querySelector(':scope > p');
+      if (!details || !summary) return;
+
+      const currentItem = Array.from(details.children).find(item =>
+        /^Current link:/i.test(item.textContent.trim())
+      );
+      const source = currentItem && currentItem.querySelector('a[href]');
+      if (!source) return;
+
+      const index = document.createElement('a');
+      index.className = 'timeline-entry-index';
+      index.href = source.href;
+      index.textContent = 'Open ↗';
+      index.title = 'Open the public material for this timeline entry';
+      if (source.getAttribute('data-render-markdown') === 'false') {
+        index.setAttribute('data-render-markdown', 'false');
+      }
+      summary.append(' ', index);
+    });
+  }
+
   button.addEventListener('click', () => {
     setCollapsed(!viewer.classList.contains('timeline-details-collapsed'));
   });
+  addPublicIndexes();
   setCollapsed(true);
 })();
 </script>
