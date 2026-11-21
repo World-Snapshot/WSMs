@@ -212,6 +212,8 @@ body {
 }
 
 .links {
+    position: relative;
+    z-index: 10002;
     display: flex;
     justify-content: center;
     gap: 15px;
@@ -242,6 +244,44 @@ body {
 
 .button i {
     margin-right: 8px;
+}
+
+/* A whole element can act as the trigger for a contextual footnote. */
+.region-footnote {
+    position: relative;
+}
+
+.region-footnote-text {
+    position: absolute;
+    top: calc(100% + 9px);
+    right: 0;
+    z-index: 100000;
+    width: max-content;
+    max-width: min(380px, calc(100vw - 32px));
+    padding: 8px 10px;
+    border: 1px solid #cf222e;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(31, 35, 40, 0.18);
+    color: #cf222e;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: left;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+}
+
+.region-footnote:hover > .region-footnote-text,
+.region-footnote:focus-visible > .region-footnote-text,
+.region-footnote:focus-within > .region-footnote-text {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .video-container {
