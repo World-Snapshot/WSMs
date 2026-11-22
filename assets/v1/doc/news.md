@@ -1,5 +1,6 @@
 ## News
 
+- **2026 Nov 21:** WSM v1 is now released as one **43.44 GiB, 18B-class model**. Training checkpoints, optimizer states, and logs moved to [Post-training Materials](https://huggingface.co/World-Snapshot/WSM_v1-Training-Resources); `wsms`, `WSMPipeline`, and ControlWorld were upgraded accordingly. Please [report migration issues](https://github.com/World-Snapshot/WSMs/issues).
 - **2026 Nov 18:** 🎉🎉 We have fully open-sourced everything of WSMs, including paper, code, data, documentation, WebUI, Live Demo, Training state file, one-click installation via Pip/Pipeline, evaluation scripts, and even training logs. Enjoy it!
 - **2025 Feb 7:** Guideline ["Model Design Guideline Memo"](https://world-snapshot.github.io/doc/index.html?page=S6_materials/01_guideline.md) completed.
 - **2025 Jan 23:** Blog ["Tensors are Basis of Light"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/07_light.md) completed.

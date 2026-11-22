@@ -336,6 +336,7 @@ assert WSMPipeline is WSM_Pipeline
 - [Project](https://world-snapshot.github.io/WSMs/)
 - [Source](https://github.com/World-Snapshot/WSMs)
 - [Model repository](https://huggingface.co/World-Snapshot/WSM_v1)
+- [Post-training materials](https://huggingface.co/World-Snapshot/WSM_v1-Training-Resources)
 - [Datasets](https://huggingface.co/World-Snapshot/datasets)
 - [Documentation](https://world-snapshot.github.io/doc/index.html)
 - [Paper](https://arxiv.org/abs/2611.24917)

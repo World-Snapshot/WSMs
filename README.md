@@ -34,6 +34,7 @@ Then, at the end of 2024, we discovered the [Unified Law for Visual Tasks](https
 
 ## News
 
+- **2026.11.21:** WSM v1 is now released as one **43.44 GiB, 18B-class model**. Training checkpoints, optimizer states, and logs moved to [Post-training Materials](https://huggingface.co/World-Snapshot/WSM_v1-Training-Resources); `wsms`, `WSMPipeline`, and ControlWorld were upgraded accordingly. Please [report migration issues](https://github.com/World-Snapshot/WSMs/issues).
 - **2026.11.18:** 🎉🎉 We have fully open-sourced everything, including paper, code, data, documentation, WebUI, Live Demo, Training state file, one-click installation via Pip/Pipeline, evaluation scripts, and even training logs.  Enjoy it!
 
 ## WSM v1
@@ -112,9 +113,17 @@ Our backbone uses the fully open Apache 2.0-licensed FLUX.2 Klein 4B model. Plac
 WSM_v1/models/black-forest-labs/FLUX.2-klein-4B/
 ```
 
-Download our released models to `WSM_v1/train_log/`, `WSM_v1/train_log_sparse/`, `WSM_v1/train_log_custom/`:
+For inference, use the unified single-model release. `WSMPipeline` reads its
+index and materializes only the shared runtime and the selected task:
 
-- https://huggingface.co/World-Snapshot/WSM_v1
+- [[WSM v1 unified inference model]](https://huggingface.co/World-Snapshot/WSM_v1)
+
+For continued training, retraining, or inspecting individual training runs,
+download the released checkpoints, optimizer states, resolved configurations,
+and training records to `WSM_v1/train_log/`, `WSM_v1/train_log_sparse/`, and
+`WSM_v1/train_log_custom/`:
+
+- [[WSM v1 post-training materials]](https://huggingface.co/World-Snapshot/WSM_v1-Training-Resources)
 
 ## Data and Training
 
@@ -250,9 +259,10 @@ result.images[0].save("normal.png")
 ```
 
 The Hub release is one `WSM_v1.wsm` checkpoint containing the complete frozen
-backbone and all 1,158 TunnelingNets. The pipeline reads its index and caches
-only the shared backbone plus the selected task; legacy local checkpoints remain
-supported by the same API, as do legacy split-layout Hub repositories.
+backbone and its built-in, sparsely activated TunnelingNets. The pipeline reads
+its index and caches only the shared backbone plus the selected task; legacy
+local checkpoints remain supported by the same API, as do legacy split-layout
+Hub repositories.
 
 See the [complete pip and Pipeline guide](PYPI_README.md) for task discovery,
 multi-input tunnels, private-model authentication, local loading, outputs, and
