@@ -10,5 +10,5 @@
 - **2024 Dec 25:** Blog ["Create Laplace's Demon"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/04_laplace_demon.md) completed.
 - **2024 Dec 24:** Blogs ["Rethink Best Papers"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/01_best_paper.md) and ["Computer Vision's Rebirth"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/02_cv_rebirth.md) completed.
 - **2024 Dec 23:** Blog ["Discuss Real World Models"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/00_world_model.md) completed.
-- **2024 Dec 21:** About 4:27-5:05 a.m., "The Song of Computer Vision (2024)" completed.
+- **2024 Dec 21:** About 4:27-5:05 a.m., ["The Song of Computer Vision (2024)"](https://world-snapshot.github.io/doc/index.html?page=S1_preface/01_song.md) completed.
 - **2024 Dec 20:** About 2:38 a.m., BOOM! The ideas for the project began to emerge continuously.
