@@ -1,10 +1,9 @@
 ---
 library_name: wsms
-pipeline_tag: image-to-image
 tags:
+- "Text and WSG to WSG"
 - world-snapshot-model
 - computer-vision
-- image-to-image
 - diffusers
 - sparse-activation
 - multi-task
