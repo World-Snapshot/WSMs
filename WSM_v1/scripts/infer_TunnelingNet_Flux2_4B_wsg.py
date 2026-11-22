@@ -23,6 +23,7 @@ from peft import set_peft_model_state_dict
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PACKAGE_SRC = PROJECT_ROOT.parent / "src"
 
 LEGACY_MODALITY_CONFIG_NAMES = {
     "wsg_v1_modalities_dense_single_condition_channel_head_condition_first.json":
@@ -36,6 +37,8 @@ LEGACY_MODALITY_CONFIG_NAMES = {
 TRAINING_SCRIPT = PROJECT_ROOT / "scripts/train_TunnelingNet_Flux2_4B_wsg.py"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
+if PACKAGE_SRC.is_dir() and str(PACKAGE_SRC) not in sys.path:
+    sys.path.insert(0, str(PACKAGE_SRC))
 
 from webui.input_validation import (
     canonical_array_from_contract,
@@ -59,6 +62,52 @@ from src.pipelines.categorical_refiner import (
 
 def log(message: str) -> None:
     print(f"[WSM Inference] {message}", flush=True)
+
+
+def materialize_model_request(request: dict[str, Any]) -> None:
+    """Resolve a monolithic WSM source into the existing local runtime view."""
+    checkpoint_text = str(request.get("checkpoint") or "").strip()
+    if checkpoint_text and Path(checkpoint_text).expanduser().is_file():
+        return
+    model_source = str(
+        request.get("model")
+        or request.get("model_source")
+        or os.environ.get("WSM_MODEL_SOURCE")
+        or ""
+    ).strip()
+    if not model_source:
+        return
+    source = str(request.get("source") or "dense")
+    head_index = int(request.get("head_index", -1))
+    if head_index < 0:
+        raise ValueError("A WSM single-file request requires source and head_index")
+    try:
+        from wsms.container import WSMContainer
+    except ImportError as exc:
+        raise RuntimeError(
+            "The wsms package is required to open a single-file WSM checkpoint"
+        ) from exc
+    container = WSMContainer.open(
+        model_source,
+        revision=request.get("model_revision"),
+        token=os.environ.get("HF_TOKEN") or None,
+    )
+    identity = f"{source}:{head_index:06d}"
+    entry = container.task_entry(identity)
+    names = list(entry.get("artifacts", []))
+    backbone = dict(container.model.get("backbone", {}))
+    names.extend(backbone.get("artifacts", []))
+    cache = request.get("model_cache") or os.environ.get("WSM_MODEL_CACHE")
+    root = container.materialize(names, cache)
+    checkpoint = root / str(entry["checkpoint"])
+    base_model = root / str(backbone.get("root", "backbone"))
+    if not checkpoint.is_file() or not base_model.is_dir():
+        raise FileNotFoundError(
+            f"WSM single-file materialization is incomplete for {identity}"
+        )
+    request["checkpoint"] = str(checkpoint)
+    os.environ["WSM_FLUX2_MODEL_PATH"] = str(base_model)
+    log(f"Resolved {identity} from single-file model {model_source}")
 
 
 def load_training_module():
@@ -1289,6 +1338,7 @@ def run_text_to_modality_chain(
 
 
 def run_inference(request: dict[str, Any], output_path: Path) -> dict[str, str]:
+    materialize_model_request(request)
     mode = str(request.get("mode") or "channel_head")
     if mode == "base_rgb":
         return run_base_rgb_inference(request, output_path)

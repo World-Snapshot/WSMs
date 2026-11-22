@@ -10,6 +10,7 @@ from huggingface_hub import snapshot_download
 from huggingface_hub.errors import GatedRepoError, RepositoryNotFoundError
 
 from .catalog import WSMTask, runtime_root
+from .container import DEFAULT_FILENAME, WSMContainer
 
 
 DEFAULT_MODEL_REPO = "World-Snapshot/WSM_v1"
@@ -54,9 +55,45 @@ def resolve_artifacts(
     download_base_model: bool = True,
     runtime: str | Path | None = None,
 ) -> WSMArtifacts:
-    """Download only the selected run and resolve the shared FLUX.2 backbone."""
+    """Resolve one task from a monolithic WSM checkpoint or legacy layout."""
     runtime_path = runtime_root(runtime)
     source = Path(str(pretrained_model_name_or_path)).expanduser()
+    local_container = (
+        source
+        if source.is_file() and source.suffix == ".wsm"
+        else source / DEFAULT_FILENAME
+        if source.is_dir() and (source / DEFAULT_FILENAME).is_file()
+        else None
+    )
+    if local_container is not None:
+        return _resolve_container_artifacts(
+            WSMContainer.open(local_container),
+            task,
+            runtime_path=runtime_path,
+            base_model=base_model,
+            cache_dir=cache_dir,
+            token=token,
+            local_files_only=local_files_only,
+            download_base_model=download_base_model,
+        )
+    if not source.exists() and not local_files_only:
+        # The public WSM v1 repository contains one range-readable checkpoint.
+        # Opening it fetches only the 64-byte header and terminal JSON index.
+        container = WSMContainer.open(
+            str(pretrained_model_name_or_path),
+            revision=revision,
+            token=token,
+        )
+        return _resolve_container_artifacts(
+            container,
+            task,
+            runtime_path=runtime_path,
+            base_model=base_model,
+            cache_dir=cache_dir,
+            token=token,
+            local_files_only=local_files_only,
+            download_base_model=download_base_model,
+        )
     if source.exists():
         model_root = source.resolve()
         if model_root.is_file():
@@ -101,6 +138,53 @@ def resolve_artifacts(
         checkpoint=checkpoint,
         base_model=base_path,
         model_root=model_root,
+        runtime_root=runtime_path,
+    )
+
+
+def _resolve_container_artifacts(
+    container: WSMContainer,
+    task: WSMTask,
+    *,
+    runtime_path: Path,
+    base_model: str | Path | None,
+    cache_dir: str | Path | None,
+    token: str | bool | None,
+    local_files_only: bool,
+    download_base_model: bool,
+) -> WSMArtifacts:
+    identity = f"{task.source}:{task.head_index:06d}"
+    entry = container.task_entry(identity)
+    names = list(entry.get("artifacts", []))
+    if not names:
+        raise ValueError(f"WSM checkpoint task {identity} has no artifacts")
+    embedded_backbone = list(container.model.get("backbone", {}).get("artifacts", []))
+    if download_base_model and base_model is None:
+        names.extend(embedded_backbone)
+    root = container.materialize(names, cache_dir)
+    checkpoint = root / str(entry["checkpoint"])
+    if not checkpoint.is_file():
+        raise FileNotFoundError(f"Materialized WSM checkpoint is missing: {checkpoint}")
+    if not download_base_model:
+        base_path = None
+    elif base_model is None:
+        base_path = root / str(container.model["backbone"].get("root", "backbone"))
+        if not base_path.is_dir():
+            raise FileNotFoundError(f"Embedded WSM backbone is missing: {base_path}")
+    else:
+        base_path = _resolve_base_model(
+            base_model,
+            runtime_path=runtime_path,
+            cache_dir=cache_dir,
+            revision=None,
+            token=token,
+            local_files_only=local_files_only,
+        )
+    return WSMArtifacts(
+        task=task,
+        checkpoint=checkpoint,
+        base_model=base_path,
+        model_root=root,
         runtime_root=runtime_path,
     )
 

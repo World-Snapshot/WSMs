@@ -248,6 +248,11 @@ result = pipe("input.png", num_inference_steps=10)
 result.images[0].save("normal.png")
 ```
 
+The Hub release is one `WSM_v1.wsm` checkpoint containing the complete frozen
+backbone and all 1,158 TunnelingNets. The pipeline reads its index and caches
+only the shared backbone plus the selected task; legacy local checkpoints remain
+supported by the same API.
+
 See the [complete pip and Pipeline guide](PYPI_README.md) for task discovery,
 multi-input tunnels, private-model authentication, local loading, outputs, and
 all command-line options.

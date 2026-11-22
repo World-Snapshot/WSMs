@@ -69,9 +69,9 @@ pip install "wsms[full]"      # all optional components
 ```
 
 The pip distribution contains the WSM pipeline, task catalog, modality
-contracts, and the source required to run released Channel Heads. Model weights
-are downloaded separately from Hugging Face and are never embedded in the
-Python package.
+contracts, and the source required to run released TunnelingNets. Model weights
+are distributed separately as the single `WSM_v1.wsm` checkpoint on Hugging
+Face and are never embedded in the Python package.
 
 ### Install directly from GitHub
 
@@ -79,7 +79,7 @@ The public Git repository can also be installed directly. Dependencies declared
 in `pyproject.toml` are installed automatically:
 
 ```bash
-pip install "wsms @ git+https://github.com/World-Snapshot/WSMs.git@v0.1.0"
+pip install "wsms @ git+https://github.com/World-Snapshot/WSMs.git@v0.2.0"
 ```
 
 Replace the release tag with a specific commit when exact reproducibility is
@@ -194,9 +194,10 @@ result = pipe(
 result.images[0].save("normal.png")
 ```
 
-`from_pretrained` downloads only the selected task run rather than every WSM
-checkpoint. The FLUX.2 Klein 4B backbone is shared across repeated calls to the
-same pipeline object.
+`from_pretrained` first reads the compact index of `WSM_v1.wsm`, then fetches
+only the embedded FLUX.2 Klein 4B runtime and the selected TunnelingNet byte
+ranges. The backbone is cached once and shared across subsequent tasks; the
+other 1,157 TunnelingNets are not downloaded or loaded.
 
 ### Multi-input tunnels
 
@@ -236,21 +237,20 @@ pipe = WSMPipeline.from_pretrained(
 
 ### Local and offline loading
 
-A local WSM release root or a direct checkpoint can replace the Hub repository:
+A local single-file WSM checkpoint can replace the Hub repository:
 
 ```python
 pipe = WSMPipeline.from_pretrained(
-    "/models/WSM_v1",
+    "/models/WSM_v1.wsm",
     inputs=["0-2"],
     output="36-38",
-    base_model="/models/FLUX.2-klein-4B",
     device="cuda:0",
-    local_files_only=True,
 )
 ```
 
-Hugging Face's normal cache behavior applies. Set `cache_dir` to control
-where downloaded artifacts are stored.
+Legacy release directories and direct task checkpoints remain supported, with
+`base_model=...` available for those layouts. Set `cache_dir` to control where
+the selected single-file members are materialized and reused.
 
 ## Command-line inference
 
