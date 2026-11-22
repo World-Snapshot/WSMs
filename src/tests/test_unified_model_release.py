@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+import wsms.hub as hub
 from wsms.container import HEADER_SIZE, WSMContainer, build_container
 from wsms.catalog import WSMTask
 from wsms.hub import resolve_artifacts
@@ -130,3 +131,37 @@ def test_public_resolver_uses_embedded_backbone_and_selected_task(tmp_path: Path
         artifacts.model_root
         / "tunnelingnets/dense/000001/tunnelingnet.safetensors"
     ).exists()
+
+
+def test_remote_legacy_repository_falls_back_to_split_layout(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    model_root = tmp_path / "legacy-snapshot"
+    checkpoint = model_root / "train_log/example/Channel_Head_000002/best.safetensors"
+    checkpoint.parent.mkdir(parents=True)
+    checkpoint.write_bytes(b"legacy")
+    task = WSMTask(
+        source="dense",
+        head_index=2,
+        task_type="estimation_or_reconstruction",
+        inputs=("0-2",),
+        output="32-33",
+        checkpoint=str(checkpoint.relative_to(model_root)),
+        run_dir="train_log/example/Channel_Head_000002",
+    )
+    monkeypatch.setattr(hub, "_remote_has_container", lambda *args, **kwargs: False)
+    monkeypatch.setattr(
+        hub, "_snapshot_download", lambda **kwargs: str(model_root)
+    )
+    runtime = tmp_path / "runtime"
+    (runtime / "configs").mkdir(parents=True)
+
+    artifacts = resolve_artifacts(
+        "organization/legacy-wsm",
+        task,
+        runtime=runtime,
+        download_base_model=False,
+    )
+
+    assert artifacts.checkpoint == checkpoint
+    assert artifacts.base_model is None

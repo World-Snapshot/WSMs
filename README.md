@@ -4,6 +4,7 @@
 [[Project Page]](https://world-snapshot.github.io/WSMs/) |
 [[Model]](https://huggingface.co/World-Snapshot/WSM_v1) |
 [[Datasets]](https://huggingface.co/World-Snapshot/datasets) |
+[[Post-training Materials]](https://huggingface.co/World-Snapshot/WSM_v1-Training-Resources) |
 [[Documentation]](https://world-snapshot.github.io/doc/index.html) |
 [[pip Install]](#installation) |
 [[Python Pipeline]](#inference) |
@@ -251,7 +252,7 @@ result.images[0].save("normal.png")
 The Hub release is one `WSM_v1.wsm` checkpoint containing the complete frozen
 backbone and all 1,158 TunnelingNets. The pipeline reads its index and caches
 only the shared backbone plus the selected task; legacy local checkpoints remain
-supported by the same API.
+supported by the same API, as do legacy split-layout Hub repositories.
 
 See the [complete pip and Pipeline guide](PYPI_README.md) for task discovery,
 multi-input tunnels, private-model authentication, local loading, outputs, and

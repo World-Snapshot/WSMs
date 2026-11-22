@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from huggingface_hub import snapshot_download
+from huggingface_hub import file_exists, snapshot_download
 from huggingface_hub.errors import GatedRepoError, RepositoryNotFoundError
 
 from .catalog import WSMTask, runtime_root
@@ -35,6 +35,30 @@ def _snapshot_download(
     """Download with an actionable error for private or gated repositories."""
     try:
         return snapshot_download(repo_id=repo_id, token=token, **kwargs)
+    except (RepositoryNotFoundError, GatedRepoError) as exc:
+        raise PermissionError(
+            f"Cannot access Hugging Face repository {repo_id!r}. It may be private "
+            "or gated. Run 'hf auth login', set HF_TOKEN, or pass token=... to "
+            "WSMPipeline.from_pretrained(), and verify that the account has access."
+        ) from exc
+
+
+def _remote_has_container(
+    repo_id: str,
+    *,
+    revision: str | None,
+    token: str | bool | None,
+) -> bool:
+    """Return whether a Hub model uses the single-file WSM layout."""
+    try:
+        return bool(
+            file_exists(
+                repo_id=repo_id,
+                filename=DEFAULT_FILENAME,
+                revision=revision,
+                token=token,
+            )
+        )
     except (RepositoryNotFoundError, GatedRepoError) as exc:
         raise PermissionError(
             f"Cannot access Hugging Face repository {repo_id!r}. It may be private "
@@ -76,7 +100,13 @@ def resolve_artifacts(
             local_files_only=local_files_only,
             download_base_model=download_base_model,
         )
-    if not source.exists() and not local_files_only:
+    if (
+        not source.exists()
+        and not local_files_only
+        and _remote_has_container(
+            str(pretrained_model_name_or_path), revision=revision, token=token
+        )
+    ):
         # The public WSM v1 repository contains one range-readable checkpoint.
         # Opening it fetches only the 64-byte header and terminal JSON index.
         container = WSMContainer.open(
