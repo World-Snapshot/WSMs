@@ -6,9 +6,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from huggingface_hub import file_exists, snapshot_download
-from huggingface_hub.errors import GatedRepoError, RepositoryNotFoundError
-
 from .catalog import WSMTask, runtime_root
 from .container import DEFAULT_FILENAME, WSMContainer
 
@@ -33,6 +30,9 @@ def _snapshot_download(
     **kwargs: Any,
 ) -> str:
     """Download with an actionable error for private or gated repositories."""
+    from huggingface_hub import snapshot_download
+    from huggingface_hub.errors import GatedRepoError, RepositoryNotFoundError
+
     try:
         return snapshot_download(repo_id=repo_id, token=token, **kwargs)
     except (RepositoryNotFoundError, GatedRepoError) as exc:
@@ -50,6 +50,9 @@ def _remote_has_container(
     token: str | bool | None,
 ) -> bool:
     """Return whether a Hub model uses the single-file WSM layout."""
+    from huggingface_hub import file_exists
+    from huggingface_hub.errors import GatedRepoError, RepositoryNotFoundError
+
     try:
         return bool(
             file_exists(
