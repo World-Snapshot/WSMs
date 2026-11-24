@@ -219,7 +219,7 @@ body {
     gap: 15px;
     margin: 5px 0;
     padding: 0;
-    width: min(90vw, 1500px);
+    width: min(90vw, 1300px);
     margin-left: 50%;
     transform: translateX(-50%);
     flex-wrap: wrap;
@@ -1108,4 +1108,17 @@ html.image-lightbox-open body {
     font-weight: bold;
     display: block;
     text-align: center;
+}
+.timeline-external-paper,
+.timeline-external-paper:visited,
+.timeline-release-milestone,
+.timeline-release-milestone:visited {
+  color: #c62828;
+}
+
+.timeline-external-paper:hover,
+.timeline-external-paper:focus,
+.timeline-release-milestone:hover,
+.timeline-release-milestone:focus {
+  color: #a31515;
 }

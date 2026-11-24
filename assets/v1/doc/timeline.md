@@ -175,7 +175,7 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Archived record: https://github.com/World-Snapshot/wsg-private-history/commit/f7227a4f4d88aa06806912caefe302f4e631f7e8
   - Current link: https://github.com/World-Snapshot/wsg
 
-- **2025 Sep 24:** External paper ["Video models are zero-shot learners and reasoners"](https://video-zero-shot.github.io/) appeared.
+- **2025 Sep 24:** External paper <a class="timeline-external-paper" href="https://video-zero-shot.github.io/">"Video models are zero-shot learners and reasoners"</a> appeared.
   - Description: This paper argues that Veo 3 can solve many vision tasks without task-specific training, including segmentation, edge detection, physical-property understanding, manipulation, and visual reasoning. It is listed here to mark when a similar external public work appeared in relation to this timeline.
   - First record: https://arxiv.org/abs/2509.20328
   - Current link: https://video-zero-shot.github.io/
@@ -260,7 +260,7 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/ab621afdb69c4721a860a8e454c3ce47d7c4f1b8
   - Current link: https://github.com/World-Snapshot/WSMs
 
-- **2026 Apr 22:** External paper ["Image Generators are Generalist Vision Learners"](https://arxiv.org/abs/2604.20329) appeared.
+- **2026 Apr 22:** External paper <a class="timeline-external-paper" href="https://arxiv.org/abs/2604.20329">"Image Generators are Generalist Vision Learners"</a> appeared.
   - Description: This paper introduces Vision Banana and argues that image generation pretraining can become a generalist vision learner. It is listed here to mark when this similar external public work appeared in relation to this timeline.
   - First record: https://arxiv.org/abs/2604.20329
   - Current link: https://arxiv.org/abs/2604.20329
@@ -269,6 +269,11 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Description: This records the start of the WSM_v1 implementation path in the model repository, moving WSG/WSV training into a larger generative-model training framework and preparing the later FLUX/Wan/TunnelingNet experiments.
   - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/22bfc4a0044f85cca25a15efd35aad4b7be11692
   - Current link: https://github.com/World-Snapshot/WSMs/tree/main/WSM_v1
+
+- **2026 May 6:** External paper <a class="timeline-external-paper" href="https://arxiv.org/abs/2605.04566">"Open-Source Image Editing Models Are Zero-Shot Vision Learners"</a> first appeared.
+  - Description: This paper showed that open-source image-editing models can perform depth, surface-normal, and semantic-segmentation tasks without task-specific fine-tuning.
+  - First record: https://arxiv.org/abs/2605.04566v1
+  - Current link: https://arxiv.org/abs/2605.04566
 
 - **2026 May 10:** UniVidX route was imported and aligned for WSM experiments.
   - Description: This records the attempt to use a UniVidX-style video-generation/intrinsic-video route for WSM training. It followed the Wan2.1/LTX explorations and was another attempt to adapt video-generation infrastructure for WSG/WSV information generation, before later code cleanup and the standalone TunnelingNet direction.
@@ -314,6 +319,17 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Description: This entry records the latest synchronized WSMs update. It adds AVIS WSV/cache reindex repair tools, semantic alignment spot-check visualization, sparse training default updates, and cache repair utilities for channel 195 and related AVIS records.
   - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/a02d9d312f7563467afaed65e42e9df36197d24e
   - Current link: https://github.com/World-Snapshot/WSMs/tree/main/WSM_v1/manual_processing/flux2_preprocessing/cache
+
+- **2026 Jul 14:** External paper <a class="timeline-external-paper" href="https://arxiv.org/abs/2607.12450">"Let RGB Be the Language of Vision"</a> first appeared.
+  - Description: This paper formulated diverse visual inputs and outputs as RGB and converted general visual tasks into a shared RGB-to-RGB image-editing problem.
+  - First record: https://arxiv.org/abs/2607.12450v1
+  - Current link: https://arxiv.org/abs/2607.12450
+
+- **2026 Nov 18:** <a class="timeline-release-milestone" href="https://github.com/World-Snapshot/WSMs/commit/989b890d">WSMs was formally released to the public.</a>
+  - Description: The public release made the WSM paper, code, data, documentation, WebUI, training states, evaluation tools, and training records available as one open research project.
+  - First public release record: https://github.com/World-Snapshot/WSMs/commit/989b890d
+  - Current paper: https://arxiv.org/abs/2611.24917
+  - Current project: https://world-snapshot.github.io/
 
 - **2026 Nov 20:** [The World Snapshot documentation and its nine historical essays were formally released as a public documentation collection.](https://world-snapshot.github.io/doc/index.html)
   - Description: The public documentation preserves the early conceptual record behind World Snapshot, including the nine essays written from December 2024 through January 2025, alongside standards, implementation guidance, and project materials.
