@@ -450,6 +450,29 @@ body {
     margin: 1em auto;
 }
 
+/* Markdown tables need explicit borders; browsers do not draw them by default. */
+.markdown-section table,
+.html-section table {
+    width: 100%;
+    margin: 1em 0;
+    border-collapse: collapse;
+}
+
+.markdown-section th,
+.markdown-section td,
+.html-section th,
+.html-section td {
+    padding: 0.5em 0.65em;
+    border: 1px solid #a2a9b1;
+    vertical-align: top;
+}
+
+.markdown-section th,
+.html-section th {
+    background: #f6f8fa;
+    font-weight: 600;
+}
+
 /* Demo section specific styles */
 .demo-grid {
     display: grid;

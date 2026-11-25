@@ -4,6 +4,18 @@ This timeline summarizes preserved, timestamped development records for the Unif
 
 Some historical commit evidence is retained in private, read-only repositories after the public repositories were reorganized into clean releases. Repository-record links may therefore be inaccessible to public visitors; links labeled **Archived record** specifically point to renamed private-history repositories. The original repositories, commit objects, timestamps, branches, and verified offline archives are preserved by the authors and Rutgers and can be provided for formal verification when needed. Links labeled **Current link** continue to point to public materials whenever available.
 
+**What this timeline establishes.** The preserved records show a continuous progression from the first representation ideas to the present system. The dates below mark the earliest records we have verified for each idea; later dates mark implementation or formalization, not the origin of the idea.
+
+- **Replace display pixels with World Pixels** ([December 20--24, 2024](https://www.overleaf.com/read/zqypdthzctwx#094edf)). We distinguished pixels as units of display from the richer units needed to represent the world, then defined World Pixels, WSG, and WSV to carry spatial, physical, semantic, pose, audio, and other information.
+- **Treat text-to-WSG as text-to-world, with one generator producing many kinds of World Information** ([December 23, 2024](https://github.com/World-Snapshot/doc/commit/1e84a6a1dd2c6fb169eb6f5855db795eb4fdbe29)). The original record explicitly described one model producing dozens or hundreds of output properties, replacing many separate encoders and modality-fusion routes.
+- **Separate RGB appearance from other World Information so that visual attributes can be edited and recombined** ([December 23, 2024](https://github.com/World-Snapshot/doc/commit/1e84a6a1dd2c6fb169eb6f5855db795eb4fdbe29)). The same record proposed exchanging RGB appearance while preserving pose information to perform pixel-level motion and style transfer.
+- **Unify computer vision through shared representations and generation across 2D, 3D, and 4D** ([January 17, 2025](https://github.com/World-Snapshot/doc/commit/14232e666b7171a8b2dd33d50d7adce1b9283e08)). We explicitly argued that computer vision should be completely unified through standardized basic formats and unified generation across images, video, scenes, and dynamic scenes.
+- **Extend existing pretrained generators instead of rebuilding every capability from scratch** ([February 7, 2025](https://github.com/World-Snapshot/doc/commit/ea5e63879cdbac161faafbb6c8cb92f33a723d9a)). The record proposed fine-tuning existing generators on WSG to acquire additional physical and world attributes while retaining their original generative capabilities.
+- **Understand RGB itself as a native conditional-control interface** (conceived [April 9, 2025](https://github.com/World-Snapshot/doc/commit/007af418b71eb5ac0f590be15526e87432eaccdd), recorded April 12). We identified RGB's three channels as three forms of conditional control and connected parameter-based control with channel-based control through a common interpretation.
+- **Express all visual tasks as generative forms** ([October 25, 2025](https://github.com/World-Snapshot/WSMs-private-history/commit/58b35510decdf7b2cc7cd19f63a82258ff8ddcb7)). The WSM record stated this principle directly and presented encoding information into images as the methodology for unifying visual tasks.
+- **Compose these visual transformations into a visual chain of thought** ([October 30, 2025](https://github.com/World-Snapshot/WSMs-private-history/commit/5cdf20e8a70cfd60a38c6e5ccdf1c0fb285af187)). The project record explicitly added Chain of Thought to WSM months before the present system and demonstrations were completed.
+- **Redirect a frozen generator toward new capabilities through sparsely activated TunnelingNets** ([May--June 2026](https://github.com/World-Snapshot/WSMs-private-history/commit/22bfc4a0044f85cca25a15efd35aad4b7be11692)). This later engineering stage turned the earlier representation and generation principles into a scalable training method, culminating in [TunnelingNet](https://github.com/World-Snapshot/WSMs-private-history/commit/f6ade3b108019f4a3f0c9f08ff2bd2a170c9bf34) and the four concrete interfaces.
+
 <button id="timeline-toggle" class="timeline-toggle" type="button" aria-expanded="false">Show details</button>
 
 <script>
@@ -42,7 +54,7 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/00_world_model.md
 
 - **2024 Dec 24:** Blog ["Rethink Best Papers"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/01_best_paper.md) and ["Computer Vision's Rebirth"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/02_cv_rebirth.md) completed.
-  - Description: "Rethink Best Papers" frames WSG as a solution to training breadth by changing the data unit instead of only changing model depth or architecture. "Computer Vision's Rebirth" expands the idea into possible WS-based fields, including graphics, physics, data collection, world generation, simulation training, games, audio, databases, autonomous driving, and medical imaging.
+  - Description: "Rethink Best Papers" frames WSG as a solution to training breadth by changing the data unit instead of only changing model depth or architecture. "Computer Vision's Rebirth" states that text-to-WSG is text-to-world, proposes one generator that can output dozens or hundreds of world properties, and separates RGB appearance from pose information for pixel-level transfer. It also expands the idea into graphics, physics, world generation, simulation, games, audio, autonomous driving, medicine, and other WS-based fields.
   - First record: https://github.com/World-Snapshot/doc/commit/fe0a24af71829aa469643980f1ff5e5ca3179663
   - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/01_best_paper.md
   - First record: https://github.com/World-Snapshot/doc/commit/1e84a6a1dd2c6fb169eb6f5855db795eb4fdbe29
@@ -70,6 +82,11 @@ Some historical commit evidence is retained in private, read-only repositories a
   - First record: https://github.com/World-Snapshot/doc/commit/de05b03d7e808a15645eb100323648fe03c81420
   - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/05_relative_learning.md
 
+- **2025 Jan 17:** [Complete unification of computer vision was stated as an explicit objective.](https://github.com/World-Snapshot/doc/commit/14232e666b7171a8b2dd33d50d7adce1b9283e08)
+  - Description: The updated project record says that computer vision should be completely unified through standardized basic formats and unified generation across 2D images and video, 3D scenes, and 4D dynamic scenes. This predates the later WSM implementation and records the field-level objective behind it.
+  - First record: https://github.com/World-Snapshot/doc/commit/14232e666b7171a8b2dd33d50d7adce1b9283e08
+  - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/01_best_paper.md
+
 - **2025 Jan 18:** Blog ["Pixel Grandfather Paradox"](https://world-snapshot.github.io/doc/index.html?page=S5_blogs/06_grandfather_paradox.md) completed.
   - Description: This blog introduces the World Pixel Grandfather Paradox and uses world-pixel/time-travel reasoning to discuss causal continuity in image-space and world-space generation. It connects pixel-level representation with wave-function-style generation and temporal consistency.
   - First record: https://github.com/World-Snapshot/doc/commit/9fa39b685818bb2fb60c9c820c6df3cff2a96b31
@@ -86,7 +103,7 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Current link: https://github.com/World-Snapshot/WaveGen
 
 - **2025 Feb 7:** Guideline ["Model Design Guideline Memo"](https://world-snapshot.github.io/doc/index.html?page=S6_materials/01_guideline.md) completed.
-  - Description: This memo records the model design path after the early WSG/WSV ideas: train the world itself, make data closer to world reality through WSG, use WaveGen and core-space ideas, and design a new model around temporal continuity and world-field generation.
+  - Description: This memo records the model design path after the early WSG/WSV ideas: train the world itself, make data closer to world reality through WSG, and seek one model spanning 1D, 2D, 3D, 4D, and other dimensions. The same update also proposes fine-tuning existing pretrained generators on WSG so they acquire additional physical and world attributes without discarding their original generative capabilities.
   - First record: https://github.com/World-Snapshot/doc/commit/b0dfc14cc8f22ef63f1a932ef2812953dbc7115e
   - Current link: https://world-snapshot.github.io/doc/index.html?page=S6_materials/01_guideline.md
 
@@ -94,6 +111,11 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Description: This records an early public implementation prototype for the wave-based generative route, before the later Wave2Pixel/WSM training line was separated more clearly.
   - First record: https://github.com/World-Snapshot/WaveGen/commit/8714c7aed0406598e905a2b56af2f6b4880eaf32
   - Current link: https://github.com/World-Snapshot/WaveGen
+
+- **2025 Apr 9--12:** [RGB and WSG channels were interpreted as native conditional-control interfaces.](https://github.com/World-Snapshot/doc/commit/007af418b71eb5ac0f590be15526e87432eaccdd)
+  - Description: A note conceived on April 9 and committed on April 12 identifies RGB's three color channels as three conditional controls and relates parameter-based conditioning to data-structure- and channel-based conditioning. This is the earliest verified bridge from RGB generation to the later use of RGB as the shared interface of the WSM task graph.
+  - First record: https://github.com/World-Snapshot/doc/commit/007af418b71eb5ac0f590be15526e87432eaccdd
+  - Current link: https://world-snapshot.github.io/doc/index.html?page=S5_blogs/01_best_paper.md
 
 - **2025 Apr 14:** WaveGen prototype and flow-model base added.
   - Description: This records the move toward a flow-model implementation basis for WaveGen and the wave-to-pixel decoder direction. The same period's notes describe treating wave/core space as meaningful initialization rather than random pixels.
@@ -200,11 +222,6 @@ Some historical commit evidence is retained in private, read-only repositories a
   - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/b52d81dadd80d43aae007efd36a788afe3702782
   - Current link: https://github.com/World-Snapshot/WSMs
 
-- **2025 Oct 25:** WaveGen submodule reference renamed from wave2pixel to WSMs.
-  - Description: This records the naming transition in the implementation history. The same model-development line that had been recorded as Wave2Pixel was renamed toward WSMs in the WaveGen integration record.
-  - First record: https://github.com/World-Snapshot/WaveGen/commit/9b9315fd94da613fef999f076d5b786b07356144
-  - Current link: https://github.com/World-Snapshot/WSMs
-
 - **2025 Oct 9:** LayerDiffuse-inspired VAE/decoder route was added to the WaveGen notes.
   - Description: This records the attempt to use VAE and LayerDiffuse-like ideas so generation could carry additional information beyond RGB. The notes describe freezing or expanding VAE-related components, adding shadow/offset channels, and trying to transmit extra WSG information through decoder-side mechanisms. This route was important because it exposed the difficulty of making ordinary VAE/decoder paths carry precise WSG information.
   - First record: https://github.com/World-Snapshot/doc/commit/5ba6289b75f46049d42785b8d210450c175f1757
@@ -213,6 +230,17 @@ Some historical commit evidence is retained in private, read-only repositories a
 - **2025 Oct 15:** Hierarchical normalization method added for WSG model training.
   - Description: This entry records the addition of hierarchical normalization for WSG training. It supports more stable handling of heterogeneous WSG channels and became part of the training-side treatment of high-dimensional world-pixel information.
   - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/07475c659e5152625e080865f08d2b35abdcdc4f
+  - Current link: https://github.com/World-Snapshot/WSMs
+
+- **2025 Oct 25:** WaveGen submodule reference renamed from wave2pixel to WSMs.
+  - Description: This records more than a naming transition. The WSMs record directly states that all visual tasks are generative forms, describes encoding information into images as the unifying methodology, and presents WSM as a controllable generator of visual outputs. The same model-development line that had been recorded as Wave2Pixel was renamed toward WSMs in the WaveGen integration record.
+  - First record: https://github.com/World-Snapshot/WaveGen/commit/9b9315fd94da613fef999f076d5b786b07356144
+  - Archived WSM record: https://github.com/World-Snapshot/WSMs-private-history/commit/58b35510decdf7b2cc7cd19f63a82258ff8ddcb7
+  - Current link: https://github.com/World-Snapshot/WSMs
+
+- **2025 Oct 30:** [Chain of Thought was explicitly added to the WSM formulation.](https://github.com/World-Snapshot/WSMs-private-history/commit/5cdf20e8a70cfd60a38c6e5ccdf1c0fb285af187)
+  - Description: The WSM comparison was extended with a Chain-of-Thought capability, recording the idea that visual transformations could be composed as an internal chain months before the current visual-chain demonstrations and interfaces were completed.
+  - Archived record: https://github.com/World-Snapshot/WSMs-private-history/commit/5cdf20e8a70cfd60a38c6e5ccdf1c0fb285af187
   - Current link: https://github.com/World-Snapshot/WSMs
 
 - **2025 Nov 14:** VAE encoder/decoder route showed clear limits.
